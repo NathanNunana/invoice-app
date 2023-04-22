@@ -1,0 +1,24 @@
+.invoice-header {
+  width: 730px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 60px;
+}
+.invoice-title h1 {
+  font-family: "SpartanBold";
+  text-align: left;
+  font-size: 32px;
+  line-height: 36px;
+}
+.invoice-title p {
+  font-size: 12px;
+  line-height: 15px;
+  color: #888eb0;
+}
+.invoice-filter {
+  font-size: 12px;
+  line-height: 15px;
+  font-family: "SpartanBold";
+}
