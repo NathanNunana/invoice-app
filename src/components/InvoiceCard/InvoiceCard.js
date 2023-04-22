@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { IconArrowRight } from "../../assets";
 import "./InvoiceCard.css";
+import StatusButton from "../StatusButton/StatusButton";
 
 const InvoiceCard = ({ invoice }) => {
   const navigate = useNavigate();
@@ -18,18 +19,7 @@ const InvoiceCard = ({ invoice }) => {
         <p className="invoice-text">{invoice.paymentDue}</p>
         <p className="invoice-text">{invoice.clientName}</p>
         <p className="invoice-total">£{invoice.total}</p>
-        <div
-          className="invoice-status"
-          style={
-            invoice.status.toLowerCase().trim() === "paid"
-              ? { background: "#33D69F11", color: "#33D69F" }
-              : invoice.status.toLowerCase().trim() === "pending"
-              ? { background: "#FF8F0011", color: "#FF8F00" }
-              : { background: "var(--font-color-status)", color: "var(--font-color-white)" }
-          }
-        >
-          {invoice.status}
-        </div>
+        <StatusButton status={invoice.status}/>
         <img src={IconArrowRight} />
       </div>
     </>

@@ -1,0 +1,20 @@
+.view-invoice-header {
+  width: 730px;
+  height: 88px;
+  margin: auto;
+  background: var(--card-color);
+  box-shadow: var(--box-shadow);
+  color: var(--font-color-white);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 16px;
+  margin-top: 32px;
+}
+.view-invoice-header div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}

@@ -7,10 +7,10 @@ import "./Invoices.css";
 const Invoices = () => {
   const [invoices, setInvoices] = React.useState([]);
   useEffect(() => {
-    // axios
-    //   .get("data.json")
-    //   .then((data) => setInvoices(data))
-    //   .catch((e) => console.log(e));
+    axios
+      .get("data.json")
+      .then((data) => setInvoices(data))
+      .catch((e) => console.log(e));
   }, []);
   return (
     <>
