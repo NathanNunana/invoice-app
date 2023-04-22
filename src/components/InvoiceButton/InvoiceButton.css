@@ -1,0 +1,24 @@
+.invoice-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #7c5dfa;
+  border-radius: 27px;
+  font-size: 12px;
+  line-height: 15px;
+  padding: 8px 12px 8px 8px;
+  color: #FFFFFF;
+  font-family: 'SpartanBold';
+}
+
+.invoice-button div{
+    background: #FFFFFF;
+    padding: 5px;
+    border-radius: 24px;
+    height: 23px;
+    width: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}

@@ -21,4 +21,10 @@
   font-size: 12px;
   line-height: 15px;
   font-family: "SpartanBold";
+  margin-right: 40px;
+}
+.invoice-action{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

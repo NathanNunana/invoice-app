@@ -34,7 +34,7 @@ const InvoiceHeader = ({ total }) => (
         <h1>Invoices</h1>
         <p>There are {total} total invoices</p>
       </div>
-      <div>
+      <div className="invoice-action">
         <span className="invoice-filter">
           Filter by status <img src={IconArrowDown} alt="icon-arrow-down" />
         </span>
