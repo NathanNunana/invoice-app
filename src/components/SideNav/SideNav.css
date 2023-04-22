@@ -38,6 +38,7 @@
 .icon-toggle {
     position: relative;
     left: 25px;
+    cursor: pointer;
 }
 .divider {
   display: block;
