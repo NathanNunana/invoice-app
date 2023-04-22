@@ -18,7 +18,7 @@ const SideNav = () => {
     setLightMode();
   }
   const [icon, setIcon] = useState(
-    selectedTheme === "dark" ? IconMoon : IconSun
+    selectedTheme === "dark" ? IconSun : IconMoon
   );
   const toggleTheme = (e) => {
     if (e.target.src.includes("moon")) {

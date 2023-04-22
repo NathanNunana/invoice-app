@@ -1,15 +1,24 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SideNav, StatusButton, Button } from "../../components";
 import "./ViewInvoice.css";
+import { IconArrowLeft } from "../../assets";
 
 const ViewInvoice = () => {
   const { state } = useLocation();
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/");
+  }
   return (
     <>
+      <div className="back-button" onClick={handleClick}>
+        <img src={IconArrowLeft}/>
+        <p>Go back</p>
+      </div>
       <SideNav />
-      <ViewInvoiceHeader status={state.status} />
-      <ViewInvoiceContent state={state} />
+      <ViewInvoiceHeader key={state.id} status={state.status} />
+      <ViewInvoiceContent key={state.id} state={state} />
     </>
   );
 };

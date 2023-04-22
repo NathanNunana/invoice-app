@@ -107,3 +107,17 @@
   font-family: "SpartanBold";
   font-size: 24px;
 }
+.back-button {
+    width: 730px;
+  margin: auto;
+  display: flex;
+  margin-top: 20px;
+  /* justify-content: center; */
+  align-items: center;
+  color: var(--font-color-white);
+  font-family: "SpartanBold";
+  font-size: 12px;
+  line-height: 15px;
+  gap: 15px;
+  cursor: pointer;
+}
