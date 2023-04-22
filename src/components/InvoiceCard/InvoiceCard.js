@@ -25,7 +25,7 @@ const InvoiceCard = ({ invoice }) => {
               ? { background: "#33D69F11", color: "#33D69F" }
               : invoice.status.toLowerCase().trim() === "pending"
               ? { background: "#FF8F0011", color: "#FF8F00" }
-              : { background: "#373B5311", color: "#373B53" }
+              : { background: "var(--font-color-status)", color: "var(--font-color-white)" }
           }
         >
           {invoice.status}

@@ -1,0 +1,49 @@
+.side-nav {
+  border-radius: 0px 20px 20px 0px;
+  background: #373b53;
+  width: 80px;
+  height: 100vh;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo-wrapper {
+  background: #7c5dfa;
+  border-radius: 0px 20px 20px 0px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-container {
+  background: #9277ff;
+  border-radius: 0px 20px 20px 0px;
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 52px;
+}
+.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 24px;
+  margin: 10px 20px 20px 20px;
+}
+.icon-toggle {
+    position: relative;
+    left: 25px;
+}
+.divider {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #494e6e;
+  margin: 1em 0;
+  padding: 0;
+}

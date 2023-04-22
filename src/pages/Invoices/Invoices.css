@@ -5,26 +5,46 @@
   align-items: center;
   margin: auto;
   margin-bottom: 60px;
+  margin-top: 20px;
 }
 .invoice-title h1 {
   font-family: "SpartanBold";
   text-align: left;
   font-size: 32px;
   line-height: 36px;
+  color: var(--font-color-white);
 }
 .invoice-title p {
   font-size: 12px;
   line-height: 15px;
-  color: #888eb0;
+  color: var(--font-color-purple);
 }
 .invoice-filter {
   font-size: 12px;
   line-height: 15px;
   font-family: "SpartanBold";
   margin-right: 40px;
+  color: var(--font-color-white);
 }
 .invoice-action{
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
+.empty-invoice-wrapper{
+  color: var(--font-color-white);
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.empty-invoice{
+  margin-bottom: 64px;
+}
+.empty-invoice p{
+  max-lines: 2;
+}
+/* .ni-txt{
+  font-family: "SpartanBold";
+} */

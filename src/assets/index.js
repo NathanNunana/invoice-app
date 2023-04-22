@@ -8,6 +8,8 @@ import IconMoon from "./icon-moon.svg";
 import IconPlus from "./icon-plus.svg";
 import IconSun from "./icon-sun.svg";
 import IllustrationEmpty from './illustration-empty.svg';
+import Logo from './logo.svg';
+import Avatar from './image-avatar.jpg';
 
 export {
   IconArrowDown,
@@ -19,5 +21,7 @@ export {
   IconMoon,
   IconPlus,
   IconSun,
-  IllustrationEmpty
+  IllustrationEmpty,
+  Logo,
+  Avatar,
 };
