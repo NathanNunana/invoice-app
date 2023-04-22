@@ -1,13 +1,13 @@
 import React from "react";
-import {useNavigate} from 'react-router-dom';
-import { IconArrowRight } from "../assets";
+import { useNavigate } from "react-router-dom";
+import { IconArrowRight } from "../../assets";
 import "./InvoiceCard.css";
 
 const InvoiceCard = ({ invoice }) => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/view-invoice", {state: invoice});
+    navigate("/view-invoice", { state: invoice });
   };
   return (
     <>

@@ -1,5 +1,5 @@
-import Invoices from "./Invoices";
-import ViewInvoice from "./ViewInvoices";
+import Invoices from "./Invoices/Invoices";
+import ViewInvoice from "./ViewInvoice/ViewInvoice";
 
 export {
     Invoices, 

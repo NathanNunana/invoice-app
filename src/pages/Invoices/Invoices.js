@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import InvoiceButton from "../components/InvoiceButton";
-import InvoiceCard from "../components/InvoiceCard";
-import { IllustrationEmpty, IconArrowDown } from "../assets";
+import { InvoiceCard, InvoiceButton } from "../../components";
+import { IllustrationEmpty, IconArrowDown } from "../../assets";
 import axios from "axios";
 import "./Invoices.css";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconPlus } from '../assets';
+import { IconPlus } from '../../assets';
 import './InvoiceButton.css';
 
 const InvoiceButton = () => <>
