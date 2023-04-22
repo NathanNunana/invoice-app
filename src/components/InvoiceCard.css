@@ -1,0 +1,46 @@
+.invoice-card {
+  width: 730px;
+  height: 72px;
+  background: #ffffff;
+  box-shadow: 0px 10px 10px -10px rgba(72, 84, 159, 0.100397);
+  border-radius: 8px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.invoice-status {
+  mix-blend-mode: normal;
+  border-radius: 6px;
+  width: 104px;
+  height: 40px;
+  font-family: "SpartanBold";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+line-height: 15px;
+}
+
+.invoice-total {
+  color: #0c0e16;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  font-family: "SpartanBold";
+  text-align: right;
+}
+
+.invoice-text {
+  font-size: 12px;
+  line-height: 15px;
+  color: #888eb0;
+  text-align: left;
+}
+
+.invoice-id {
+  font-family: "SpartanBold";
+  color: #0c0e16;
+}

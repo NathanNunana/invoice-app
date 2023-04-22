@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "SpartanRegular";   /*Can be any text*/
+  src: local("SpartanRegular"),
+    url("./assets/font/Spartan-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "SpartanLight";   /*Can be any text*/
+  src: local("SpartanLight"),
+    url("./assets/font/Spartan-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "SpartanBold";   /*Can be any text*/
+  src: local("SpartanBold"),
+    url("./assets/font/Spartan-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "SpartanMedium";   /*Can be any text*/
+  src: local("SpartanMedium"),
+    url("./assets/font/Spartan-Medium.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  background: #F8F8FB;
+  font-family: 'SpartanLight';
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
