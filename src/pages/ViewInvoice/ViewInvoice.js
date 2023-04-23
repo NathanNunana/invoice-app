@@ -6,24 +6,38 @@ import { IconArrowLeft } from "../../assets";
 
 const ViewInvoice = () => {
   const { state } = useLocation();
+  const [showModal, setShowModal] = React.useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/");
-  }
+  };
   return (
     <>
       <div className="back-button" onClick={handleClick}>
-        <img src={IconArrowLeft}/>
+        <img src={IconArrowLeft} />
         <p>Go back</p>
       </div>
       <SideNav />
-      <ViewInvoiceHeader key={state.id} status={state.status} />
+      <ViewInvoiceHeader
+        key={state.id}
+        status={state.status}
+        openModal={openModal}
+      />
       <ViewInvoiceContent key={state.id} state={state} />
+      <DeleteModal showModal={showModal} closeModal={closeModal} id={state.id}/>
     </>
   );
 };
 
-const ViewInvoiceHeader = ({ status }) => (
+const ViewInvoiceHeader = ({ status, openModal }) => (
   <div className="view-invoice-header">
     <div>
       <p>Status</p>
@@ -33,7 +47,9 @@ const ViewInvoiceHeader = ({ status }) => (
       <Button color="var(--edit-color)" txt="#7E88C3">
         Edit
       </Button>
-      <Button color="var(--delete-color)">Delete</Button>
+      <Button color="var(--delete-color)" modalAction={openModal}>
+        Delete
+      </Button>
       <Button color="var(--mark-color)">Mark as Paid</Button>
     </div>
   </div>
@@ -107,5 +123,33 @@ const ViewInvoiceContent = ({ state }) => (
     </div>
   </>
 );
+
+const DeleteModal = ({ closeModal, showModal, id }) => {
+  return (
+    <div>
+      {showModal && (
+        <div className="modal-background">
+          <div className="modal-content">
+            <h3>Confirm Deletion</h3>
+            <p>
+              Are you sure you want to delete invoice #{id}? This action
+              cannot be undone.
+            </p>
+            <div>
+              <Button
+                color="var(--edit-color)"
+                txt="#7E88C3"
+                modalAction={closeModal}
+              >
+                Cancel
+              </Button>
+              <Button color="var(--delete-color)">Delete</Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default ViewInvoice;
