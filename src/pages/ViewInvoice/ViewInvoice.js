@@ -1,12 +1,13 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SideNav, StatusButton, Button } from "../../components";
+import { SideNav, StatusButton, Button, Modal } from "../../components";
 import "./ViewInvoice.css";
-import { IconArrowLeft } from "../../assets";
+import { IconArrowLeft, IconDelete } from "../../assets";
 
 const ViewInvoice = () => {
   const { state } = useLocation();
   const [showModal, setShowModal] = React.useState(false);
+  const [showSideModal, setShowSideModal] = React.useState(false);
 
   const openModal = () => {
     setShowModal(true);
@@ -14,6 +15,14 @@ const ViewInvoice = () => {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const openSideModal = () => {
+    setShowSideModal(true);
+  };
+
+  const closeSideModal = () => {
+    setShowSideModal(false);
   };
   const navigate = useNavigate();
   const handleClick = () => {
@@ -30,21 +39,205 @@ const ViewInvoice = () => {
         key={state.id}
         status={state.status}
         openModal={openModal}
+        openSideModal={openSideModal}
       />
       <ViewInvoiceContent key={state.id} state={state} />
-      <DeleteModal showModal={showModal} closeModal={closeModal} id={state.id}/>
+      <DeleteModal
+        showModal={showModal}
+        closeModal={closeModal}
+        id={state.id}
+      />
+      <Modal show={showSideModal} handleClose={closeSideModal}>
+        <div className="create-invoice-wrapper">
+          <h5>Edit #{state.id}</h5>
+          <form>
+            <div className="bill-from">
+              <p>Bill From</p>
+              <div>
+                <label>Street Address</label>
+                <br />
+                <input
+                  type="text"
+                  className="input-boxes fill"
+                  value={state.senderAddress.street}
+                />
+              </div>
+              <div className="bill-row">
+                <div>
+                  <label>City</label>
+                  <br />
+                  <input
+                    type="text"
+                    className="input-boxes"
+                    value={state.senderAddress.city}
+                  />
+                </div>
+                <div>
+                  <label>Post Code</label>
+                  <br />
+                  <input
+                    type="text"
+                    className="input-boxes"
+                    value={state.senderAddress.postCode}
+                  />
+                </div>
+                <div>
+                  <label>Country</label>
+                  <br />
+                  <input
+                    type="text"
+                    className="input-boxes"
+                    value={state.senderAddress.country}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="bill-to">
+              <p>Bill To</p>
+              <div>
+                <label>Client Name</label>
+                <br />
+                <input
+                  type="text"
+                  className="input-boxes fill"
+                  value={state.clientName}
+                />
+              </div>
+              <div>
+                <label>Client's Email</label>
+                <br />
+                <input
+                  type="text"
+                  className="input-boxes fill"
+                  placeholder="e.g email@example.com"
+                  value={state.clientEmail}
+                />
+              </div>
+              <div>
+                <label>Street Address</label>
+                <br />
+                <input
+                  type="text"
+                  className="input-boxes fill"
+                  value={state.clientAddress.street}
+                />
+              </div>
+              <div className="bill-row">
+                <div>
+                  <label>City</label>
+                  <br />
+                  <input
+                    type="text"
+                    className="input-boxes"
+                    value={state.clientAddress.city}
+                  />
+                </div>
+                <div>
+                  <label>Post Code</label>
+                  <br />
+                  <input
+                    type="text"
+                    className="input-boxes"
+                    value={state.clientAddress.postCode}
+                  />
+                </div>
+                <div>
+                  <label>Country</label>
+                  <br />
+                  <input
+                    type="text"
+                    className="input-boxes"
+                    value={state.clientAddress.country}
+                  />
+                </div>
+              </div>
+              <div className="bill-row">
+                <div>
+                  <label>Invoice Date</label>
+                  <input
+                    type="date"
+                    className="input-boxes"
+                    value={state.createdAt}
+                  />
+                </div>
+                <div>
+                  <label>Payment Terms</label>
+                  <input type="text" className="input-boxes" />
+                </div>
+              </div>
+              <div>
+                <label>Project Description</label>
+                <input
+                  type="text"
+                  className="input-boxes fill"
+                  value={state.description}
+                />
+              </div>
+            </div>
+            <div className="item-list">
+              <h3>Item List</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <td>Item Name</td>
+                    <td>QTY.</td>
+                    <td>Price</td>
+                    <td>Total</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {state.items.map((e) => (
+                    <tr className="items-row">
+                      <td>{e.name}</td>
+                      <td>{e.quantity}</td>
+                      <td>{e.price}</td>
+                      <td>{e.total}</td>
+                      <td>
+                        <img src={IconDelete} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="item-list-btn">+ Add New Items</div>
+              <div className="action-container">
+                <div className="action-btn-wrapper">
+                  <div className="action-btn">
+                    <Button
+                      color="var(--add-item-button-bg)"
+                      txt="var(--add-item-button-color)"
+                    >
+                      Discard
+                    </Button>
+                    <div>
+                      <Button color="var(--primary-color)">
+                        Save as Draft
+                      </Button>
+                      <Button color="var(--mark-color)">Save & Send</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </Modal>
     </>
   );
 };
 
-const ViewInvoiceHeader = ({ status, openModal }) => (
+const ViewInvoiceHeader = ({ status, openModal, openSideModal }) => (
   <div className="view-invoice-header">
     <div>
       <p>Status</p>
       <StatusButton status={status} />
     </div>
     <div>
-      <Button color="var(--edit-color)" txt="#7E88C3">
+      <Button
+        color="var(--edit-color)"
+        txt="#7E88C3"
+        modalAction={openSideModal}
+      >
         Edit
       </Button>
       <Button color="var(--delete-color)" modalAction={openModal}>
@@ -132,8 +325,8 @@ const DeleteModal = ({ closeModal, showModal, id }) => {
           <div className="modal-content">
             <h3>Confirm Deletion</h3>
             <p>
-              Are you sure you want to delete invoice #{id}? This action
-              cannot be undone.
+              Are you sure you want to delete invoice #{id}? This action cannot
+              be undone.
             </p>
             <div>
               <Button
