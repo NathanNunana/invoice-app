@@ -2,13 +2,10 @@ import React from "react";
 import { IconPlus } from "../../assets";
 import "./InvoiceButton.css";
 
-const InvoiceButton = () => {
-  const handleClick = () => {
-    console.log('Create New Invoice')
-  };
+const InvoiceButton = ({handleOpen}) => {
   return (
     <>
-      <div className="invoice-button" onClick={handleClick}>
+      <div className="invoice-button" onClick={handleOpen}>
         <div>
           <img src={IconPlus} />
         </div>

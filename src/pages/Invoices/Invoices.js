@@ -6,16 +6,23 @@ import "./Invoices.css";
 
 const Invoices = () => {
   const [invoices, setInvoices] = React.useState([]);
+  const [showModal, setShowModal] = React.useState(false);
   useEffect(() => {
     axios
       .get("data.json")
       .then((data) => setInvoices(data))
       .catch((e) => console.log(e));
   }, []);
+  const handleModalOpen = () => {
+    setShowModal(true);
+  }
+  const handleModalClose = () => {
+    setShowModal(false);
+  }
   return (
     <>
-      <SideNav />
-      <InvoiceHeader total={invoices.data?.length} />
+      <SideNav show={showModal} handleClose={handleModalClose}/>
+      <InvoiceHeader total={invoices.data?.length} handleOpen={handleModalOpen}/>
       {invoices.data?.length > 0 ? (
         invoices.data?.map((invoice) => (
           <InvoiceCard key={invoice.id} invoice={invoice} />
@@ -40,7 +47,7 @@ const Invoices = () => {
   );
 };
 
-const InvoiceHeader = ({ total }) => (
+const InvoiceHeader = ({ total, handleOpen }) => (
   <>
     <div className="invoice-header">
       <div className="invoice-title">
@@ -51,7 +58,7 @@ const InvoiceHeader = ({ total }) => (
         <span className="invoice-filter">
           Filter by status <img src={IconArrowDown} alt="icon-arrow-down" />
         </span>
-        <InvoiceButton />
+        <InvoiceButton handleOpen={handleOpen}/>
       </div>
     </div>
   </>
