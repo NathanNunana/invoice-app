@@ -34,6 +34,11 @@
   --edit-color: #f9fafe;
   --delete-color: #ec5757;
   --mark-color: #7c5dfa;
+  --input-box-color: #ffffff;
+  --input-box-border:#DFE3FA;
+  --modal-color: #FFFFFF;
+  --add-item-button-bg: #F9FAFE;
+  --add-item-button-color: #7E88C3;
 }
 [data-theme="dark"] {
   --primary-color: #373b53;
@@ -50,6 +55,11 @@
   --edit-color: #252945;
   --delete-color: #ec5757;
   --mark-color: #7c5dfa;
+  --input-box-color: #1E2139;
+  --input-box-border: #252945;
+  --modal-color: #141625; 
+  --add-item-button-bg: #252945;
+  --add-item-button-color: #ffffff;
 }
 
 * {

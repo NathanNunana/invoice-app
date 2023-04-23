@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./SideNav.css";
 import { Avatar, IconMoon, Logo, IconSun } from "../../assets";
-import { Modal } from '../index';
 
-const SideNav = ({show, handleClose}) => {
+const SideNav = () => {
   const setDarkMode = () => {
     document.querySelector("body").setAttribute("data-theme", "dark");
     localStorage.setItem("selectedTheme", "dark");
@@ -48,7 +47,6 @@ const SideNav = ({show, handleClose}) => {
           <img src={Avatar} className="avatar" />
         </div>
       </div>
-      <Modal show={show} handleClose={handleClose}/>
     </>
   );
 };

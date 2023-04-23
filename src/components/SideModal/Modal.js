@@ -1,7 +1,7 @@
 import React from "react";
 import "./Modal.css";
 
-const Modal = ({ handleClose, show, children }) => {
+const Modal = ({ handleClose, show, children}) => {
   const handleClick = (e) => {
     if(e.target === e.currentTarget){
       e.preventDefault();
