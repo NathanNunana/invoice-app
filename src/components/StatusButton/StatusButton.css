@@ -1,12 +1,12 @@
 .invoice-status {
-    mix-blend-mode: normal;
-    border-radius: 6px;
-    width: 104px;
-    height: 40px;
-    font-family: "SpartanBold";
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 12px;
+  mix-blend-mode: normal;
+  border-radius: 6px;
+  width: 104px;
+  height: 40px;
+  font-family: "SpartanBold";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
   line-height: 15px;
-  }
+}
