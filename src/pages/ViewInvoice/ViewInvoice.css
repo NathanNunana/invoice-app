@@ -71,6 +71,7 @@
 }
 .price-card-wrapper {
   margin: 45px 48px 0px 48px;
+  margin-bottom: 20px;
 }
 .invoice-table {
   width: 634px;
@@ -177,4 +178,7 @@
   background-color: var(--modal-color);
   border: none;
   cursor: pointer;
+}
+.spacer{
+  padding: 10px;
 }

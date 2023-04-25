@@ -312,6 +312,9 @@ const ViewInvoiceContent = ({ state }) => (
           <p>Amount Due</p>
           <h5>£{state.total}</h5>
         </div>
+        <div className="spacer">
+           
+        </div>
       </div>
     </div>
   </>

@@ -10,3 +10,9 @@
   font-size: 12px;
   line-height: 15px;
 }
+.dot{
+  border-radius: 50px;
+  height: 10px;
+  width: 10px;
+  margin-right: 10px;
+}
