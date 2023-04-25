@@ -2,36 +2,49 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SideNav, StatusButton, Button, Modal } from "../../components";
 import "./ViewInvoice.css";
-import { IconArrowLeft, IconCalendar, IconDelete } from "../../assets";
+import { IconArrowLeft, IconDelete } from "../../assets";
 
 const ViewInvoice = () => {
+  // handling passed data
   const { state } = useLocation();
+
+  // useState hooks
   const [showModal, setShowModal] = React.useState(false);
   const [showSideModal, setShowSideModal] = React.useState(false);
 
+  // handling opening of delete modal
   const openModal = () => {
     setShowModal(true);
   };
 
+  // handling closing of delete modal
   const closeModal = () => {
     setShowModal(false);
   };
 
+  // handling opening of edit modal
   const openSideModal = () => {
     setShowSideModal(true);
   };
 
+  // handling closing of delete modal
   const closeSideModal = () => {
     setShowSideModal(false);
   };
+
+  // activating the useNavigate function
   const navigate = useNavigate();
+
+  // handling page navigation
   const handleClick = () => {
     navigate("/");
   };
+
+  // rendering the UI elements
   return (
     <>
       <div className="back-button" onClick={handleClick}>
-        <img src={IconArrowLeft} />
+        <img src={IconArrowLeft} alt="go back"/>
         <p>Go back</p>
       </div>
       <SideNav />
@@ -43,6 +56,7 @@ const ViewInvoice = () => {
       />
       <ViewInvoiceContent key={state.id} state={state} />
       <DeleteModal
+        key={state.id}
         showModal={showModal}
         closeModal={closeModal}
         id={state.id}
@@ -173,7 +187,12 @@ const ViewInvoice = () => {
                 </div>
                 <div>
                   <label>Payment Terms</label>
-                  <input type="text" className="input-boxes" required/>
+                  <select required>
+                    <option>Net 1 Day</option>
+                    <option>Net 7 Day</option>
+                    <option>Net 14 Day</option>
+                    <option>Net 30 Day</option>
+                  </select>
                 </div>
               </div>
               <div>
@@ -205,7 +224,7 @@ const ViewInvoice = () => {
                       <td>{e.price}</td>
                       <td>{e.total}</td>
                       <td>
-                        <img src={IconDelete} />
+                        <img src={IconDelete} alt="delete icon" />
                       </td>
                     </tr>
                   ))}
@@ -324,8 +343,7 @@ const ViewInvoiceContent = ({ state }) => (
           <p>Amount Due</p>
           <h5>£{state.total}</h5>
         </div>
-        <div className="spacer">
-        </div>
+        <div className="spacer"></div>
       </div>
     </div>
   </>
