@@ -39,6 +39,7 @@
   --modal-color: #FFFFFF;
   --add-item-button-bg: #F9FAFE;
   --add-item-button-color: #7E88C3;
+  --date-icon-color: light;
 }
 [data-theme="dark"] {
   --primary-color: #373b53;
@@ -60,6 +61,7 @@
   --modal-color: #141625; 
   --add-item-button-bg: #252945;
   --add-item-button-color: #ffffff;
+  --date-icon-color: dark;
 }
 
 * {

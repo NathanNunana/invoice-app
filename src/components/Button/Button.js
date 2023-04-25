@@ -1,15 +1,18 @@
 import React from "react";
 import "./Button.css";
 
-const Button = ({ children, color, txt, modalAction }) => (
+const Button = ({ children, color, txt, modalAction}) => (
   <>
-    <div
+    <input
       className="action-btn"
       style={{ background: color, color: txt ?? "#ffffff" }}
       onClick={modalAction}
+      value={children}
+      type="submit"
+      /
     >
-      {children}
-    </div>
+      
+    {/* </input> */}
   </>
 );
 

@@ -25,6 +25,7 @@
   font-family: "SpartanBold";
   margin-right: 40px;
   color: var(--font-color-white);
+  cursor: pointer;
 }
 .invoice-action {
   display: flex;
@@ -72,6 +73,19 @@
   margin: 15px 0px;
   text-align: left;
   color: var(--font-color-light);
+  color-scheme: var(--date-icon-color);
+}
+select{
+  background-color: var(--input-box-color);
+  border: 1px solid var(--input-box-border);
+  color: var(--font-color-white);
+  width: 200px;
+  border-radius: 4px;
+  padding: 10px 10px;
+  margin: 15px 0px;
+}
+option{
+  padding: 10px;
 }
 .bill-row {
   display: flex;

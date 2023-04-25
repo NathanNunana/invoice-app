@@ -37,23 +37,23 @@ const Invoices = () => {
               <div>
                 <label>Street Address</label>
                 <br />
-                <input type="text" className="input-boxes fill" />
+                <input type="text" className="input-boxes fill" required/>
               </div>
               <div className="bill-row">
                 <div>
                   <label>City</label>
                   <br />
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
                 <div>
                   <label>Post Code</label>
                   <br />
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
                 <div>
                   <label>Country</label>
                   <br />
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
               </div>
             </div>
@@ -62,7 +62,7 @@ const Invoices = () => {
               <div>
                 <label>Client Name</label>
                 <br />
-                <input type="text" className="input-boxes fill" />
+                <input type="text" className="input-boxes fill" required/>
               </div>
               <div>
                 <label>Client's Email</label>
@@ -71,43 +71,49 @@ const Invoices = () => {
                   type="text"
                   className="input-boxes fill"
                   placeholder="e.g email@example.com"
+                  required
                 />
               </div>
               <div>
                 <label>Street Address</label>
                 <br />
-                <input type="text" className="input-boxes fill" />
+                <input type="text" className="input-boxes fill" required/>
               </div>
               <div className="bill-row">
                 <div>
                   <label>City</label>
                   <br />
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
                 <div>
                   <label>Post Code</label>
                   <br />
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
                 <div>
                   <label>Country</label>
                   <br />
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
               </div>
               <div className="bill-row">
                 <div>
                   <label>Invoice Date</label>
-                  <input type="date" className="input-boxes" />
+                  <input type="date" className="input-boxes" required/>
                 </div>
                 <div>
-                  <label>Payment Terms</label>
-                  <input type="text" className="input-boxes" />
+                  <label>Payment Terms</label><br/>
+                  <select className="select-box" required>
+                      <option>Net 1 Day</option>
+                      <option>Net 7 Day</option>
+                      <option>Net 14 Day</option>
+                      <option>Net 30 Day</option>
+                  </select>
                 </div>
               </div>
               <div>
                 <label>Project Description</label>
-                <input type="text" className="input-boxes fill" />
+                <input type="text" className="input-boxes fill" placeholder="e.g. Graphic Design Service" required/>
               </div>
             </div>
             <div className="item-list">

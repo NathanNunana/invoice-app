@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SideNav, StatusButton, Button, Modal } from "../../components";
 import "./ViewInvoice.css";
-import { IconArrowLeft, IconDelete } from "../../assets";
+import { IconArrowLeft, IconCalendar, IconDelete } from "../../assets";
 
 const ViewInvoice = () => {
   const { state } = useLocation();
@@ -60,6 +60,7 @@ const ViewInvoice = () => {
                   type="text"
                   className="input-boxes fill"
                   value={state.senderAddress.street}
+                  required
                 />
               </div>
               <div className="bill-row">
@@ -70,6 +71,7 @@ const ViewInvoice = () => {
                     type="text"
                     className="input-boxes"
                     value={state.senderAddress.city}
+                    required
                   />
                 </div>
                 <div>
@@ -79,6 +81,7 @@ const ViewInvoice = () => {
                     type="text"
                     className="input-boxes"
                     value={state.senderAddress.postCode}
+                    required
                   />
                 </div>
                 <div>
@@ -88,6 +91,7 @@ const ViewInvoice = () => {
                     type="text"
                     className="input-boxes"
                     value={state.senderAddress.country}
+                    required
                   />
                 </div>
               </div>
@@ -101,6 +105,7 @@ const ViewInvoice = () => {
                   type="text"
                   className="input-boxes fill"
                   value={state.clientName}
+                  required
                 />
               </div>
               <div>
@@ -111,6 +116,7 @@ const ViewInvoice = () => {
                   className="input-boxes fill"
                   placeholder="e.g email@example.com"
                   value={state.clientEmail}
+                  required
                 />
               </div>
               <div>
@@ -120,6 +126,7 @@ const ViewInvoice = () => {
                   type="text"
                   className="input-boxes fill"
                   value={state.clientAddress.street}
+                  required
                 />
               </div>
               <div className="bill-row">
@@ -130,6 +137,7 @@ const ViewInvoice = () => {
                     type="text"
                     className="input-boxes"
                     value={state.clientAddress.city}
+                    required
                   />
                 </div>
                 <div>
@@ -139,6 +147,7 @@ const ViewInvoice = () => {
                     type="text"
                     className="input-boxes"
                     value={state.clientAddress.postCode}
+                    required
                   />
                 </div>
                 <div>
@@ -148,6 +157,7 @@ const ViewInvoice = () => {
                     type="text"
                     className="input-boxes"
                     value={state.clientAddress.country}
+                    required
                   />
                 </div>
               </div>
@@ -158,11 +168,12 @@ const ViewInvoice = () => {
                     type="date"
                     className="input-boxes"
                     value={state.createdAt}
+                    required
                   />
                 </div>
                 <div>
                   <label>Payment Terms</label>
-                  <input type="text" className="input-boxes" />
+                  <input type="text" className="input-boxes" required/>
                 </div>
               </div>
               <div>
@@ -171,6 +182,7 @@ const ViewInvoice = () => {
                   type="text"
                   className="input-boxes fill"
                   value={state.description}
+                  required
                 />
               </div>
             </div>
@@ -313,7 +325,6 @@ const ViewInvoiceContent = ({ state }) => (
           <h5>£{state.total}</h5>
         </div>
         <div className="spacer">
-           
         </div>
       </div>
     </div>

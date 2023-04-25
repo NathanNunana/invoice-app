@@ -33,18 +33,18 @@ const SideNav = () => {
     <>
       <div className="side-nav">
         <div className="logo-wrapper">
-          <div className="logo-container"></div>
-          <img src={Logo} />
+        <div className="logo-container"></div>
+          <img src={Logo} alt="logo"/>
         </div>
         <div>
           <img
             src={icon}
-            alt=""
+            alt="icon"
             onClick={toggleTheme}
             className="icon-toggle"
           />
           <hr className="divider" />
-          <img src={Avatar} className="avatar" />
+          <img src={Avatar} className="avatar" alt="avatar"/>
         </div>
       </div>
     </>
