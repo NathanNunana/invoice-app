@@ -32,3 +32,10 @@
   font-family: "SpartanBold";
   color: var(--font-color-white);
 }
+
+
+@media only screen and (max-width: 767px) {
+  .invoice-card{
+    width: 85%;
+  }
+}

@@ -21,3 +21,11 @@
     padding-left: 50px;
     overflow-y: auto;
   }
+
+  @media only screen and (max-width: 767px) {
+    .modal-main{
+      position: absolute;
+      left: 0px;
+      width: 50%;
+    }
+  }

@@ -33,10 +33,10 @@ const SideNav = () => {
     <>
       <div className="side-nav">
         <div className="logo-wrapper">
-        <div className="logo-container"></div>
-          <img src={Logo} alt="logo"/>
+          <div className="logo-container"></div>
+          <img src={Logo} alt="logo" />
         </div>
-        <div>
+        <div className="separator">
           <img
             src={icon}
             alt="icon"
@@ -44,7 +44,7 @@ const SideNav = () => {
             className="icon-toggle"
           />
           <hr className="divider" />
-          <img src={Avatar} className="avatar" alt="avatar"/>
+          <img src={Avatar} className="avatar" alt="avatar" />
         </div>
       </div>
     </>
