@@ -8,6 +8,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Invoices />} />
         <Route path="/view-invoice" element={<ViewInvoice />} />
+        <Route path="*" element={<center>
+          <h1>Page Not Found</h1>
+        </center>}/>
       </Routes>
     </div>
   );
