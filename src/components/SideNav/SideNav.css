@@ -1,6 +1,6 @@
 .side-nav {
   border-radius: 0px 20px 20px 0px;
-  background: #373b53;
+  background: var(--primary-color);
   width: 80px;
   height: 100vh;
   position: fixed;
@@ -13,7 +13,7 @@
 }
 
 .logo-wrapper {
-  background: #7c5dfa;
+  background: var(--secondary-color);
   border-radius: 0px 20px 20px 0px;
   width: 80px;
   height: 80px;
@@ -22,7 +22,7 @@
   align-items: center;
 }
 .logo-container {
-  background: #9277ff;
+  background: var(--secondary-color);
   opacity: 0.5;
   border-radius: 0px 20px 0px 20px;
   transform: matrix(-1, 0, 0, 1, 0, 0);
