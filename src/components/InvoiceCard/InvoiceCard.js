@@ -16,9 +16,9 @@ const InvoiceCard = ({ invoice }) => {
         <h5 className="invoice-text">
           #<span className="invoice-id">{invoice.id}</span>
         </h5>
-        <p className="invoice-text">{invoice.paymentDue}</p>
-        <p className="invoice-text">{invoice.clientName}</p>
-        <p className="invoice-total">£{invoice.total}</p>
+        <p className="invoice-text">{invoice.paymentdue.substring(0, 10)}</p>
+        <p className="invoice-text">{invoice.clientname}</p>
+        <p className="invoice-total">£{invoice.total.substring(1)}</p>
         <StatusButton status={invoice.status}/>
         <img src={IconArrowRight} />
       </div>

@@ -40,6 +40,8 @@ const ViewInvoice = () => {
     navigate("/");
   };
 
+  console.log(`state: ${JSON.stringify(state.sendersaddress)}`)
+
   // rendering the UI elements
   return (
     <>
@@ -73,7 +75,7 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.senderAddress.street}
+                  value={state.sendersaddress.street}
                   required
                 />
               </div>
@@ -84,7 +86,7 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.senderAddress.city}
+                    value={state.sendersaddress.city}
                     required
                   />
                 </div>
@@ -94,7 +96,7 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.senderAddress.postCode}
+                    value={state.sendersaddress.postcode}
                     required
                   />
                 </div>
@@ -104,7 +106,7 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.senderAddress.country}
+                    value={state.sendersaddress.country}
                     required
                   />
                 </div>
@@ -118,7 +120,7 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.clientName}
+                  value={state.clientname}
                   required
                 />
               </div>
@@ -129,7 +131,7 @@ const ViewInvoice = () => {
                   type="text"
                   className="input-boxes fill"
                   placeholder="e.g email@example.com"
-                  value={state.clientEmail}
+                  value={state.clientemail}
                   required
                 />
               </div>
@@ -139,7 +141,7 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.clientAddress.street}
+                  value={state.clientaddress.street}
                   required
                 />
               </div>
@@ -150,7 +152,7 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.clientAddress.city}
+                    value={state.clientaddress.city}
                     required
                   />
                 </div>
@@ -160,7 +162,7 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.clientAddress.postCode}
+                    value={state.clientaddress.postCode}
                     required
                   />
                 </div>
@@ -170,7 +172,7 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.clientAddress.country}
+                    value={state.clientaddress.country}
                     required
                   />
                 </div>
@@ -181,7 +183,7 @@ const ViewInvoice = () => {
                   <input
                     type="date"
                     className="input-boxes"
-                    value={state.createdAt}
+                    value={state.createdat.substring(0, 10)}
                     required
                   />
                 </div>
@@ -288,36 +290,36 @@ const ViewInvoiceContent = ({ state }) => (
           <p>{state.description}</p>
         </div>
         <div className="view-invoice-address">
-          <p>{state.senderAddress.street}</p>
-          <p>{state.senderAddress.city}</p>
-          <p>{state.senderAddress.postCode}</p>
-          <p>{state.senderAddress.country}</p>
+          <p>{state.sendersaddress.street}</p>
+          <p>{state.sendersaddress.city}</p>
+          <p>{state.sendersaddress.postcode}</p>
+          <p>{state.sendersaddress.country}</p>
         </div>
       </div>
       <div className="view-invoice-details">
         <div>
           <div>
             <p>Invoice Date</p>
-            <h5>{state.createdAt}</h5>
+            <h5>{state.createdat.substring(0, 10)}</h5>
           </div>
           <div>
             <p>Payment Due</p>
-            <h5>{state.paymentDue}</h5>
+            <h5>{state.paymentdue.substring(0, 10)}</h5>
           </div>
         </div>
         <div>
           <p>Bill To</p>
-          <h5>{state.clientName}</h5>
+          <h5>{state.clientname}</h5>
           <div>
-            <p>{state.clientAddress.street}</p>
-            <p>{state.clientAddress.city}</p>
-            <p>{state.clientAddress.postCode}</p>
-            <p>{state.clientAddress.country}</p>
+            <p>{state.clientaddress.street}</p>
+            <p>{state.clientaddress.city}</p>
+            <p>{state.clientaddress.postcode}</p>
+            <p>{state.clientaddress.country}</p>
           </div>
         </div>
         <div>
           <p>Sent To</p>
-          <h5>{state.clientEmail}</h5>
+          <h5>{state.clientemail}</h5>
         </div>
       </div>
       <div className="price-card-wrapper">
@@ -341,7 +343,7 @@ const ViewInvoiceContent = ({ state }) => (
         </div>
         <div className="total-tag">
           <p>Amount Due</p>
-          <h5>£{state.total}</h5>
+          <h5>£{state.total.substring(1)}</h5>
         </div>
         <div className="spacer"></div>
       </div>

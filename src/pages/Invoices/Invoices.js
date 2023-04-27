@@ -15,14 +15,21 @@ const Invoices = () => {
   const [invoices, setInvoices] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
 
+  // new invoice controllers
+  // TODO: create the controllers to handle creation of new invoice 
+
   // reading invoice data
   useEffect(() => {
     const readData = async () => {
-      setInvoices(await readInvoice());
+      const invoice = await readInvoice();
+      console.log(invoice);
+      setInvoices(JSON.parse(invoice));
     };
     readData();
   }, []);
 
+  
+  console.log(`invoices:: ${JSON.stringify(invoices[0])}`)
   // handling opening of side modal
   const handleModalOpen = () => {
     setShowModal(true);
@@ -163,11 +170,11 @@ const Invoices = () => {
         </div>
       </Modal>
       <InvoiceHeader
-        total={invoices.data?.length}
+        total={invoices.length}
         handleOpen={handleModalOpen}
       />
-      {invoices.data?.length > 0 ? (
-        invoices.data?.map((invoice) => (
+      {invoices.length > 0 ? (
+        invoices.map((invoice) => (
           <InvoiceCard key={invoice.id} invoice={invoice} />
         ))
       ) : (
