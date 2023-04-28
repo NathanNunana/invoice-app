@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SideNav, StatusButton, Button, Modal } from "../../components";
 import "./ViewInvoice.css";
 import { IconArrowLeft, IconDelete } from "../../assets";
+import { deleteInvoice, updateInvoice } from "../../services/crud";
 
 const ViewInvoice = () => {
   // handling passed data
@@ -40,13 +41,99 @@ const ViewInvoice = () => {
     navigate("/");
   };
 
-  console.log(`state: ${JSON.stringify(state.sendersaddress)}`)
+  // delete invoice
+  const removeInvoice = async () => {
+    console.log(`id: ${state.id}`);
+    await deleteInvoice(state.id);
+    closeModal();
+    navigate("/");
+  };
+
+  // New Invoice Controllers
+  // Senders Address Controllers
+  const [sendersStreet, setSendersStreet] = React.useState(
+    state.sendersaddress.street
+  );
+  const [sendersCity, setSendersCity] = React.useState(
+    state.sendersaddress.city
+  );
+  const [sendersPostCode, setSendersPostCode] = React.useState(
+    state.sendersaddress.postCode
+  );
+  const [sendersCountry, setSendersCountry] = React.useState(
+    state.sendersaddress.country
+  );
+
+  // Senders Address Controllers
+  const [clientName, setClientName] = React.useState(state.clientname);
+  const [clientEmail, setClientEmail] = React.useState(state.clientemail);
+
+  // Invoice Information
+  const [paymentDue, setPaymentDue] = React.useState(
+    state.createdat.substring(0, 10)
+  );
+  const [paymentTerms, setPaymentTerms] = React.useState(state.paymentterms);
+  const [description, setDescription] = React.useState(state.description);
+  const [items, setItems] = React.useState([]);
+  const [total, setTotal] = React.useState(0.0);
+  const [status, setStatus] = React.useState("Pending");
+
+  // Client Address Controllers
+  const [clientStreet, setClientStreet] = React.useState(
+    state.clientaddress.street
+  );
+  const [clientCity, setClientCity] = React.useState(state.clientaddress.city);
+  const [clientPostCode, setClientPostCode] = React.useState(
+    state.clientaddress.postCode
+  );
+  const [clientCountry, setClientCountry] = React.useState(
+    state.clientaddress.country
+  );
+
+  console.log(sendersStreet)
+  console.log(sendersCity)
+  console.log(sendersCountry)
+  console.log(sendersPostCode)
+  console.log(state.sendersaddress)
+
+  const editInvoice = async () => {
+    await updateInvoice({
+      paymentDue: paymentDue,
+      description: description,
+      paymentTerms: paymentTerms,
+      clientName: clientName,
+      clientEmail: clientEmail,
+      status: status,
+      sendersAddress: {
+        street: sendersStreet,
+        city: sendersCity,
+        postCode: sendersPostCode,
+        country: sendersCountry,
+      },
+      clientAddress: {
+        street: clientStreet,
+        city: clientCity,
+        postCode: clientPostCode,
+        country: clientCountry,
+      },
+      items: [
+        {
+          name: "Logo Re-design",
+          quantity: 1,
+          price: 3102.04,
+          total: 3102.04,
+        },
+      ],
+      total: total,
+    }, state.id);
+    navigate("/");
+  };
 
   // rendering the UI elements
   return (
     <>
       <div className="back-button" onClick={handleClick}>
-        <img src={IconArrowLeft} alt="go back"/>
+        <img src={IconArrowLeft} alt="go back" />
         <p>Go back</p>
       </div>
       <SideNav />
@@ -62,6 +149,7 @@ const ViewInvoice = () => {
         showModal={showModal}
         closeModal={closeModal}
         id={state.id}
+        deleteInvoice={removeInvoice}
       />
       <Modal show={showSideModal} handleClose={closeSideModal}>
         <div className="create-invoice-wrapper">
@@ -75,7 +163,8 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.sendersaddress.street}
+                  value={sendersStreet}
+                  onChange={(e) => setSendersStreet(e.target.value)}
                   required
                 />
               </div>
@@ -86,7 +175,8 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.sendersaddress.city}
+                    value={sendersCity}
+                    onChange={(e) => setSendersCity(e.target.value)}
                     required
                   />
                 </div>
@@ -96,7 +186,8 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.sendersaddress.postcode}
+                    value={sendersPostCode}
+                    onChange={(e) => setSendersPostCode(e.target.value)}
                     required
                   />
                 </div>
@@ -106,7 +197,8 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.sendersaddress.country}
+                    value={sendersCountry}
+                    onChange={(e) => setSendersCountry(e.target.value)}
                     required
                   />
                 </div>
@@ -120,7 +212,8 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.clientname}
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
                   required
                 />
               </div>
@@ -131,7 +224,8 @@ const ViewInvoice = () => {
                   type="text"
                   className="input-boxes fill"
                   placeholder="e.g email@example.com"
-                  value={state.clientemail}
+                  value={clientEmail}
+                  onChange={(e) => setClientEmail(e.target.value)}
                   required
                 />
               </div>
@@ -141,7 +235,8 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.clientaddress.street}
+                  value={clientStreet}
+                  onChange={(e) => setClientStreet(e.target.value)}
                   required
                 />
               </div>
@@ -152,7 +247,8 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.clientaddress.city}
+                    value={clientCity}
+                    onChange={(e) => setClientCity(e.target.value)}
                     required
                   />
                 </div>
@@ -162,7 +258,8 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.clientaddress.postCode}
+                    value={clientPostCode}
+                    onChange={(e) => setClientPostCode(e.target.value)}
                     required
                   />
                 </div>
@@ -172,7 +269,8 @@ const ViewInvoice = () => {
                   <input
                     type="text"
                     className="input-boxes"
-                    value={state.clientaddress.country}
+                    value={clientCountry}
+                    onChange={(e) => setClientCountry(e.target.value)}
                     required
                   />
                 </div>
@@ -183,13 +281,22 @@ const ViewInvoice = () => {
                   <input
                     type="date"
                     className="input-boxes"
-                    value={state.createdat.substring(0, 10)}
+                    value={paymentDue}
+                    onChange={(e) => setPaymentDue(e.target.value)}
                     required
                   />
                 </div>
                 <div>
                   <label>Payment Terms</label>
-                  <select required>
+                  <select
+                    onChange={(e) =>
+                      setPaymentTerms(
+                        parseInt(e.target.value.substring(3, 6).trim())
+                      )
+                    }
+                    value={paymentTerms}
+                    required
+                  >
                     <option>Net 1 Day</option>
                     <option>Net 7 Day</option>
                     <option>Net 14 Day</option>
@@ -202,7 +309,8 @@ const ViewInvoice = () => {
                 <input
                   type="text"
                   className="input-boxes fill"
-                  value={state.description}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   required
                 />
               </div>
@@ -246,7 +354,12 @@ const ViewInvoice = () => {
                       <Button color="var(--primary-color)">
                         Save as Draft
                       </Button>
-                      <Button color="var(--mark-color)">Save & Send</Button>
+                      <Button
+                        color="var(--mark-color)"
+                        handleAction={editInvoice}
+                      >
+                        Save & Send
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -269,11 +382,11 @@ const ViewInvoiceHeader = ({ status, openModal, openSideModal }) => (
       <Button
         color="var(--edit-color)"
         txt="#7E88C3"
-        modalAction={openSideModal}
+        handleAction={openSideModal}
       >
         Edit
       </Button>
-      <Button color="var(--delete-color)" modalAction={openModal}>
+      <Button color="var(--delete-color)" handleAction={openModal}>
         Delete
       </Button>
       <Button color="var(--mark-color)">Mark as Paid</Button>
@@ -351,7 +464,7 @@ const ViewInvoiceContent = ({ state }) => (
   </>
 );
 
-const DeleteModal = ({ closeModal, showModal, id }) => {
+const DeleteModal = ({ closeModal, showModal, id, deleteInvoice }) => {
   return (
     <div>
       {showModal && (
@@ -366,11 +479,13 @@ const DeleteModal = ({ closeModal, showModal, id }) => {
               <Button
                 color="var(--edit-color)"
                 txt="#7E88C3"
-                modalAction={closeModal}
+                handleAction={closeModal}
               >
                 Cancel
               </Button>
-              <Button color="var(--delete-color)">Delete</Button>
+              <Button color="var(--delete-color)" handleAction={deleteInvoice}>
+                Delete
+              </Button>
             </div>
           </div>
         </div>

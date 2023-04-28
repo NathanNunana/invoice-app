@@ -19,16 +19,16 @@ const readInvoice = async () =>
     .catch((e) => console.log(e));
 
 // update invoice by id
-const updateInvoice = (id, invoice) =>
+const updateInvoice = (invoice, id) =>
   axios
-    .put("data.json", invoice)
+    .put(`${baseUrl}/update/${id}`, invoice)
     .then((data) => console.log(data))
     .catch((e) => console.log(e));
 
 // delete invoice by id
 const deleteInvoice = (id) =>
   axios
-    .delete("data.json")
+    .delete(`${baseUrl}/remove/${id}`)
     .then((data) => console.log(data))
     .catch((e) => console.log(e));
 
