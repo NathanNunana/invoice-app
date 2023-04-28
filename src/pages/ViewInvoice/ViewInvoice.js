@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { SideNav, StatusButton, Button, Modal } from "../../components";
 import "./ViewInvoice.css";
 import { IconArrowLeft, IconDelete } from "../../assets";
-import { deleteInvoice, updateInvoice } from "../../services/crud";
+import { deleteInvoice, markInvoiceAsPaid, updateInvoice } from "../../services/crud";
 
 const ViewInvoice = () => {
   // handling passed data
   const { state } = useLocation();
+
+  // localStorage.set(state);
 
   // useState hooks
   const [showModal, setShowModal] = React.useState(false);
@@ -43,8 +45,8 @@ const ViewInvoice = () => {
 
   // delete invoice
   const removeInvoice = async () => {
-    console.log(`id: ${state.id}`);
-    await deleteInvoice(state.id);
+    console.log(`id: ${state?.id}`);
+    await deleteInvoice(state?.id);
     closeModal();
     navigate("/");
   };
@@ -52,80 +54,78 @@ const ViewInvoice = () => {
   // New Invoice Controllers
   // Senders Address Controllers
   const [sendersStreet, setSendersStreet] = React.useState(
-    state.sendersaddress.street
+    state?.sendersaddress.street
   );
   const [sendersCity, setSendersCity] = React.useState(
-    state.sendersaddress.city
+    state?.sendersaddress.city
   );
   const [sendersPostCode, setSendersPostCode] = React.useState(
-    state.sendersaddress.postCode
+    state?.sendersaddress.postCode
   );
   const [sendersCountry, setSendersCountry] = React.useState(
-    state.sendersaddress.country
+    state?.sendersaddress.country
   );
 
   // Senders Address Controllers
-  const [clientName, setClientName] = React.useState(state.clientname);
-  const [clientEmail, setClientEmail] = React.useState(state.clientemail);
+  const [clientName, setClientName] = React.useState(state?.clientname);
+  const [clientEmail, setClientEmail] = React.useState(state?.clientemail);
 
   // Invoice Information
   const [paymentDue, setPaymentDue] = React.useState(
-    state.createdat.substring(0, 10)
+    state?.createdat.substring(0, 10)
   );
-  const [paymentTerms, setPaymentTerms] = React.useState(state.paymentterms);
-  const [description, setDescription] = React.useState(state.description);
+  const [paymentTerms, setPaymentTerms] = React.useState(state?.paymentterms);
+  const [description, setDescription] = React.useState(state?.description);
   const [items, setItems] = React.useState([]);
   const [total, setTotal] = React.useState(0.0);
   const [status, setStatus] = React.useState("Pending");
 
   // Client Address Controllers
   const [clientStreet, setClientStreet] = React.useState(
-    state.clientaddress.street
+    state?.clientaddress.street
   );
-  const [clientCity, setClientCity] = React.useState(state.clientaddress.city);
+  const [clientCity, setClientCity] = React.useState(state?.clientaddress.city);
   const [clientPostCode, setClientPostCode] = React.useState(
-    state.clientaddress.postCode
+    state?.clientaddress.postCode
   );
   const [clientCountry, setClientCountry] = React.useState(
-    state.clientaddress.country
+    state?.clientaddress.country
   );
 
-  console.log(sendersStreet)
-  console.log(sendersCity)
-  console.log(sendersCountry)
-  console.log(sendersPostCode)
-  console.log(state.sendersaddress)
-
   const editInvoice = async () => {
-    await updateInvoice({
-      paymentDue: paymentDue,
-      description: description,
-      paymentTerms: paymentTerms,
-      clientName: clientName,
-      clientEmail: clientEmail,
-      status: status,
-      sendersAddress: {
-        street: sendersStreet,
-        city: sendersCity,
-        postCode: sendersPostCode,
-        country: sendersCountry,
-      },
-      clientAddress: {
-        street: clientStreet,
-        city: clientCity,
-        postCode: clientPostCode,
-        country: clientCountry,
-      },
-      items: [
-        {
-          name: "Logo Re-design",
-          quantity: 1,
-          price: 3102.04,
-          total: 3102.04,
+    await updateInvoice(
+      {
+        paymentDue: paymentDue,
+        description: description,
+        paymentTerms: paymentTerms,
+        clientName: clientName,
+        clientEmail: clientEmail,
+        status: status,
+        sendersAddress: {
+          street: sendersStreet,
+          city: sendersCity,
+          postCode: sendersPostCode,
+          country: sendersCountry,
         },
-      ],
-      total: total,
-    }, state.id);
+        clientAddress: {
+          street: clientStreet,
+          city: clientCity,
+          postCode: clientPostCode,
+          country: clientCountry,
+        },
+        items: [],
+        total: total,
+      },
+      state?.id
+    );
+  };
+
+  const readInvoice = () => {
+    // TODO: read the invoice by id
+  }
+
+  const markAsPaid = async () => {
+    await markInvoiceAsPaid(`${state?.id}`);
     navigate("/");
   };
 
@@ -138,22 +138,23 @@ const ViewInvoice = () => {
       </div>
       <SideNav />
       <ViewInvoiceHeader
-        key={state.id}
-        status={state.status}
+        key={state?.id}
+        status={state?.status}
         openModal={openModal}
         openSideModal={openSideModal}
+        markInvoiceAsPaid={markAsPaid}
       />
-      <ViewInvoiceContent key={state.id} state={state} />
+      <ViewInvoiceContent key={state?.id} state={state} />
       <DeleteModal
-        key={state.id}
+        key={state?.id}
         showModal={showModal}
         closeModal={closeModal}
-        id={state.id}
+        id={state?.id}
         deleteInvoice={removeInvoice}
       />
       <Modal show={showSideModal} handleClose={closeSideModal}>
         <div className="create-invoice-wrapper">
-          <h5>Edit #{state.id}</h5>
+          <h5>Edit #{state?.id}</h5>
           <form>
             <div className="bill-from">
               <p>Bill From</p>
@@ -327,7 +328,7 @@ const ViewInvoice = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {state.items.map((e) => (
+                  {state?.items.map((e) => (
                     <tr className="items-row">
                       <td>{e.name}</td>
                       <td>{e.quantity}</td>
@@ -372,7 +373,7 @@ const ViewInvoice = () => {
   );
 };
 
-const ViewInvoiceHeader = ({ status, openModal, openSideModal }) => (
+const ViewInvoiceHeader = ({ status, openModal, openSideModal, markInvoiceAsPaid }) => (
   <div className="view-invoice-header">
     <div>
       <p>Status</p>
@@ -389,7 +390,9 @@ const ViewInvoiceHeader = ({ status, openModal, openSideModal }) => (
       <Button color="var(--delete-color)" handleAction={openModal}>
         Delete
       </Button>
-      <Button color="var(--mark-color)">Mark as Paid</Button>
+      <Button color="var(--mark-color)" handleAction={markInvoiceAsPaid}>
+        Mark as Paid
+      </Button>
     </div>
   </div>
 );
@@ -399,40 +402,40 @@ const ViewInvoiceContent = ({ state }) => (
     <div className="view-invoice-content">
       <div className="head">
         <div className="title">
-          <h5>#{state.id}</h5>
-          <p>{state.description}</p>
+          <h5>#{state?.id}</h5>
+          <p>{state?.description}</p>
         </div>
         <div className="view-invoice-address">
-          <p>{state.sendersaddress.street}</p>
-          <p>{state.sendersaddress.city}</p>
-          <p>{state.sendersaddress.postcode}</p>
-          <p>{state.sendersaddress.country}</p>
+          <p>{state?.sendersaddress.street}</p>
+          <p>{state?.sendersaddress.city}</p>
+          <p>{state?.sendersaddress.postcode}</p>
+          <p>{state?.sendersaddress.country}</p>
         </div>
       </div>
       <div className="view-invoice-details">
         <div>
           <div>
             <p>Invoice Date</p>
-            <h5>{state.createdat.substring(0, 10)}</h5>
+            <h5>{state?.createdat.substring(0, 10)}</h5>
           </div>
           <div>
             <p>Payment Due</p>
-            <h5>{state.paymentdue.substring(0, 10)}</h5>
+            <h5>{state?.paymentdue.substring(0, 10)}</h5>
           </div>
         </div>
         <div>
           <p>Bill To</p>
-          <h5>{state.clientname}</h5>
+          <h5>{state?.clientname}</h5>
           <div>
-            <p>{state.clientaddress.street}</p>
-            <p>{state.clientaddress.city}</p>
-            <p>{state.clientaddress.postcode}</p>
-            <p>{state.clientaddress.country}</p>
+            <p>{state?.clientaddress.street}</p>
+            <p>{state?.clientaddress.city}</p>
+            <p>{state?.clientaddress.postcode}</p>
+            <p>{state?.clientaddress.country}</p>
           </div>
         </div>
         <div>
           <p>Sent To</p>
-          <h5>{state.clientemail}</h5>
+          <h5>{state?.clientemail}</h5>
         </div>
       </div>
       <div className="price-card-wrapper">
@@ -444,7 +447,7 @@ const ViewInvoiceContent = ({ state }) => (
               <th>Price</th>
               <th>Total</th>
             </tr>
-            {state.items.map((e) => (
+            {state?.items.map((e) => (
               <tr>
                 <td>{e.name}</td>
                 <td>{e.quantity}</td>
@@ -456,7 +459,7 @@ const ViewInvoiceContent = ({ state }) => (
         </div>
         <div className="total-tag">
           <p>Amount Due</p>
-          <h5>£{state.total.substring(1)}</h5>
+          <h5>£{state?.total.substring(1)}</h5>
         </div>
         <div className="spacer"></div>
       </div>

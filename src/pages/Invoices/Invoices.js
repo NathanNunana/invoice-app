@@ -15,8 +15,7 @@ const Invoices = () => {
   const [invoices, setInvoices] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
 
-  // new invoice controllers
-  // TODO: create the controllers to handle creation of new invoice
+  // New Invoice Controllers
   // Senders Address Controllers
   const [sendersStreet, setSendersStreet] = React.useState('');
   const [sendersCity, setSendersCity] = React.useState('');
@@ -82,14 +81,7 @@ const Invoices = () => {
         postCode: clientPostCode,
         country: clientCountry,
       },
-      items: [
-        {
-          name: "Logo Re-design",
-          quantity: 1,
-          price: 3102.04,
-          total: 3102.04,
-        },
-      ],
+      items: [],
       total: total,
     });
   };

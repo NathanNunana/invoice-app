@@ -3,8 +3,8 @@ import axios from "axios";
 const baseUrl = "http://localhost:3000/invoice";
 
 // create new invoice
-const createInvoice = (invoice) =>
-  axios
+const createInvoice = async (invoice) =>
+  await axios
     .post(`${baseUrl}/create`, invoice)
     .then((data) => console.log(data))
     .catch((e) => console.log(e));
@@ -18,19 +18,35 @@ const readInvoice = async () =>
     })
     .catch((e) => console.log(e));
 
+// read invoice
+const readInvoiceById = async (id) =>
+  await axios
+    .get(`baseUrl/${id}`)
+    .then((res) => {
+      return JSON.stringify(res.data.invoice);
+    })
+    .catch((e) => console.log(e));
+
 // update invoice by id
-const updateInvoice = (invoice, id) =>
-  axios
+const updateInvoice = async (invoice, id) =>
+  await axios
     .put(`${baseUrl}/update/${id}`, invoice)
     .then((data) => console.log(data))
     .catch((e) => console.log(e));
 
 // delete invoice by id
-const deleteInvoice = (id) =>
-  axios
+const deleteInvoice = async (id) =>
+  await axios
     .delete(`${baseUrl}/remove/${id}`)
     .then((data) => console.log(data))
     .catch((e) => console.log(e));
 
+// mark invoice as paid
+const markInvoiceAsPaid = async (id) =>
+  await axios
+    .put(`${baseUrl}/mark/${id}`)
+    .then((res) => console.log(res))
+    .catch((e) => console.log(e));
+
 // crud export
-export { createInvoice, readInvoice, updateInvoice, deleteInvoice };
+export { createInvoice, readInvoice, updateInvoice, deleteInvoice, markInvoiceAsPaid };
