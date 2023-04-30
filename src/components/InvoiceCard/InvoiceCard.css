@@ -1,12 +1,12 @@
 .invoice-card {
-  width: 730px;
-  height: 72px;
+  width: calc(100vw / 2);
+  padding: 8px 32px;
   background: var(--card-color);
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   margin: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
   cursor: pointer;
@@ -33,9 +33,22 @@
   color: var(--font-color-white);
 }
 
+.responsive-card{
+  display: flex;  
+  justify-content: space-around;
+  align-items: center; 
+  gap: 37px;
+}
 
 @media only screen and (max-width: 767px) {
   .invoice-card{
-    width: 85%;
+    width: calc(100vw - 150px);
+    overflow: hidden;
+  }
+  .responsive-card{
+    display: block;
+  }
+  .arrow-right{
+    display: none;
   }
 }

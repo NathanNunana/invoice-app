@@ -1,5 +1,5 @@
 .invoice-header {
-  width: 730px;
+  width: calc(100vw / 2 + 32px);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -147,6 +147,14 @@ option{
 @media only screen and (max-width: 767px) {
   .invoice-header{
     margin-top: 80px;
-    width: 85%;
+    width: calc(100vw - 90px);
+  }
+  .invoice-title h1 {
+    font-size: 27px;
+  }
+  .invoice-filter {
+    font-size: 10px;
+    margin-left: 20px;
+    margin-right: 5px;
   }
 }

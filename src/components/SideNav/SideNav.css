@@ -57,7 +57,7 @@
     background: var(--primary-color);
     position: fixed;
     border-radius: 0px;
-    width: 100%;
+    width: 100vw;
     height: 80px;
     left: 0px;
     top: 0px;

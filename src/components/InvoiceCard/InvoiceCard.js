@@ -13,14 +13,20 @@ const InvoiceCard = ({ invoice }) => {
   return (
     <>
       <div className="invoice-card" onClick={handleClick}>
-        <h5 className="invoice-text">
-          #<span className="invoice-id">{invoice.id}</span>
-        </h5>
-        <p className="invoice-text">{invoice.paymentdue.substring(0, 10)}</p>
-        <p className="invoice-text">{invoice.clientname}</p>
-        <p className="invoice-total">£{invoice.total.substring(1)}</p>
-        <StatusButton status={invoice.status}/>
-        <img src={IconArrowRight} />
+        <span className="responsive-card">
+          <h5 className="invoice-text">
+            #<span className="invoice-id">{invoice.id}</span>
+          </h5>
+          <p className="invoice-text">{invoice.paymentdue.substring(0, 10)}</p>
+          <p className="invoice-text">{invoice.clientname}</p>
+        </span>
+        <span className="responsive-card">
+          <p className="invoice-total">£{invoice.total.substring(1)}</p>
+          <StatusButton status={invoice.status} />
+        </span>
+        <div className="arrow-right">
+          <img src={IconArrowRight} alt="arrow-right" />
+        </div>
       </div>
     </>
   );
