@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const baseUrl = "https://invoice-app-backend-dfaj.onrender.com/invoice";
-// const baseUrl = "http://localhost:3000/invoice";
+// const baseUrl = "http://localhost:8000/invoice";
 
 // create new invoice
 const createInvoice = async (invoice) =>
@@ -49,5 +49,20 @@ const markInvoiceAsPaid = async (id) =>
     .then((res) => console.log(res))
     .catch((e) => console.log(e));
 
+// filter invoice by status
+const filterInvoiceByStatus = async (status) =>
+  await axios
+    .get(`${baseUrl}/filter/${status}`)
+    .then((res) => res.data)
+    .catch((e) => console.log(e));
+
 // crud export
-export { createInvoice, readInvoice, updateInvoice, deleteInvoice, markInvoiceAsPaid };
+export {
+  createInvoice,
+  readInvoice,
+  readInvoiceById,
+  updateInvoice,
+  deleteInvoice,
+  markInvoiceAsPaid,
+  filterInvoiceByStatus
+};

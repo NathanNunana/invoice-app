@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   margin: auto;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   margin-top: 20px;
 }
 .invoice-title h1 {
@@ -75,7 +75,7 @@
   color: var(--font-color-light);
   color-scheme: var(--date-icon-color);
 }
-select{
+select {
   background-color: var(--input-box-color);
   border: 1px solid var(--input-box-border);
   color: var(--font-color-white);
@@ -84,7 +84,7 @@ select{
   padding: 10px 10px;
   margin: 15px 0px;
 }
-option{
+option {
   padding: 10px;
 }
 .bill-row {
@@ -98,16 +98,16 @@ option{
 .fill {
   width: 85%;
 }
-.item-list h3{
-  color: #777F98;
+.item-list h3 {
+  color: #777f98;
 }
-.item-list table{
+.item-list table {
   width: 85%;
   font-size: 12px;
   color: var(--font-color-light);
 }
 .item-list-btn {
-  width: 85%;
+  width: 80%;
   color: var(--add-item-button-color);
   background: var(--add-item-button-bg);
   text-align: center;
@@ -120,21 +120,21 @@ option{
   cursor: pointer;
   margin-top: 16px;
 }
-.action-btn-wrapper{
+.action-btn-wrapper {
   width: 90%;
 }
-.action-btn{
+.action-btn {
   margin: 20px 0px;
   display: flex;
   justify-content: space-between;
   text-align: center;
   align-items: center;
 }
-.action-btn div{
+.action-btn div {
   display: flex;
   gap: 20px;
 }
-.action-container{
+.action-container {
   width: calc(100% + 45px);
   margin: 0;
   padding: 5px;
@@ -144,17 +144,151 @@ option{
   transform: translate(-50px, 10px);
 }
 
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-trigger {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-options {
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  list-style: none;
+  padding: 10px 24px;
+  background-color: var(--card-color);
+  box-shadow: var(--box-shadow);
+  border-top: none;
+  border-radius: 8px;
+}
+
+.dropdown-options label {
+  padding: 10px 0px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--secondary-color-opacity);
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+  border-color: var(--secondary-color-opacity);
+  background-color: var(--secondary-color);
+  text-align: center;
+}
+.filter-text {
+  margin-right: 16px;
+}
+
+.responsive-action-btn {
+  display: none;
+}
+
+.back-btn {
+  display: none;
+}
+
 @media only screen and (max-width: 767px) {
-  .invoice-header{
+  .invoice-header {
     margin-top: 80px;
-    width: calc(100vw - 90px);
+    width: calc(100vw - 50px);
   }
+
   .invoice-title h1 {
     font-size: 27px;
   }
+
   .invoice-filter {
-    font-size: 10px;
-    margin-left: 20px;
     margin-right: 5px;
+  }
+
+  .filter-text {
+    margin-right: 8px;
+  }
+
+  .by-status {
+    display: none;
+  }
+
+  .action-btn-wrapper {
+    display: none;
+  }
+
+  .bill-row select {
+    width: 120%;
+  }
+
+  .bill-row input[type="date"] {
+    width: 80%;
+  }
+
+  .input-boxes {
+    width: 75%;
+  }
+
+  .item-list-btn {
+    width: 75%;
+  }
+
+  .bill-row {
+    width: 75%;
+  }
+
+  .action-btn {
+    /* margin: 5px; */
+    padding: 10px 15px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* width: 100%; */
+  }
+
+  .responsive-action-btn {
+    display: block;
+    width: 80%;
+  }
+  .responsive-action-btn span{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 20px 0px;
+    /* margin-top: 50px; */
+  }
+  .responsive-action-btn span div{
+    display: flex;
+    gap: 10px;
+  }
+
+  .back-btn {
+    margin: auto;
+    display: flex;
+    margin-top: 100px;
+    align-items: center;
+    color: var(--font-color-white);
+    font-family: "SpartanBold";
+    font-size: 12px;
+    line-height: 15px;
+    gap: 15px;
+    cursor: pointer;
+  }
+  .dropdown-options {
+    width: 150%;
   }
 }

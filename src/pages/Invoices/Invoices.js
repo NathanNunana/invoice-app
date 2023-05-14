@@ -5,47 +5,73 @@ import {
   SideNav,
   Modal,
   Button,
+  AddItemModal,
+  LoadingAnimation,
 } from "../../components";
-import { IllustrationEmpty, IconArrowDown } from "../../assets";
-import { readInvoice, createInvoice } from "../../services/crud";
+import {
+  IllustrationEmpty,
+  IconArrowDown,
+  IconArrowUp,
+  IconCheck,
+  IconArrowLeft,
+  IconDelete,
+} from "../../assets";
+import {
+  readInvoice,
+  createInvoice,
+  filterInvoiceByStatus,
+} from "../../services/crud";
 import "./Invoices.css";
+import { useNavigate } from "react-router-dom";
 
 const Invoices = () => {
   // useState hooks
   const [invoices, setInvoices] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
+  const [showItemModal, setShowItemModal] = React.useState(false);
 
   // New Invoice Controllers
   // Senders Address Controllers
-  const [sendersStreet, setSendersStreet] = React.useState('');
-  const [sendersCity, setSendersCity] = React.useState('');
-  const [sendersPostCode, setSendersPostCode] = React.useState('');
-  const [sendersCountry, setSendersCountry] = React.useState('');
+  const [sendersStreet, setSendersStreet] = React.useState("");
+  const [sendersCity, setSendersCity] = React.useState("");
+  const [sendersPostCode, setSendersPostCode] = React.useState("");
+  const [sendersCountry, setSendersCountry] = React.useState("");
 
   // Senders Address Controllers
-  const [clientName, setClientName] = React.useState('');
-  const [clientEmail, setClientEmail] = React.useState('');
+  const [clientName, setClientName] = React.useState("");
+  const [clientEmail, setClientEmail] = React.useState("");
 
   // Invoice Information
-  const [paymentDue, setPaymentDue] = React.useState('');
+  const [paymentDue, setPaymentDue] = React.useState("");
   const [paymentTerms, setPaymentTerms] = React.useState(0);
-  const [description, setDescription] = React.useState('');
+  const [description, setDescription] = React.useState("");
   const [items, setItems] = React.useState([]);
-  const [total, setTotal] = React.useState(0.00);
-  const [status, setStatus] = React.useState('Pending');
+  const [status, setStatus] = React.useState("Pending");
 
   // Client Address Controllers
-  const [clientStreet, setClientStreet] = React.useState('');
-  const [clientCity, setClientCity] = React.useState('');
-  const [clientPostCode, setClientPostCode] = React.useState('');
-  const [clientCountry, setClientCountry] = React.useState('');
+  const [clientStreet, setClientStreet] = React.useState("");
+  const [clientCity, setClientCity] = React.useState("");
+  const [clientPostCode, setClientPostCode] = React.useState("");
+  const [clientCountry, setClientCountry] = React.useState("");
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const [selectedOption, setSelectedOption] = React.useState("");
+
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const handleOptionChange = async (event) => {
+    setSelectedOption(event.target.value);
+    const filteredInvoice = await filterInvoiceByStatus(event.target.value);
+    setInvoices(filteredInvoice.invoice);
+  };
 
   // reading invoice data
   useEffect(() => {
     const readData = async () => {
       const invoice = await readInvoice();
-      console.log(invoice);
       setInvoices(JSON.parse(invoice));
+      setIsLoading(false);
     };
     readData();
   }, []);
@@ -60,6 +86,13 @@ const Invoices = () => {
   const handleModalClose = () => {
     setShowModal(false);
   };
+
+  const handleClick = () => {
+    handleModalClose();
+  };
+
+  const handleShowModal = () => setShowItemModal(true);
+  const handleCloseModal = () => setShowItemModal(false);
 
   const saveInvoice = async () => {
     await createInvoice({
@@ -81,8 +114,8 @@ const Invoices = () => {
         postCode: clientPostCode,
         country: clientCountry,
       },
-      items: [],
-      total: total,
+      items: items,
+      total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
     });
   };
 
@@ -92,6 +125,10 @@ const Invoices = () => {
       <SideNav show={showModal} handleClose={handleModalClose} />
       <Modal show={showModal} handleClose={handleModalClose}>
         <div className="create-invoice-wrapper">
+          <div className="back-btn" onClick={handleClick}>
+            <img src={IconArrowLeft} alt="go back" />
+            <p>Go back</p>
+          </div>
           <h5>New Invoice</h5>
           <form>
             <div className="bill-from">
@@ -218,7 +255,11 @@ const Invoices = () => {
                   <label>Payment Terms</label>
                   <br />
                   <select
-                    onChange={(e) => setPaymentTerms(parseInt(e.target.value.substring(3, 6).trim()))}
+                    onChange={(e) =>
+                      setPaymentTerms(
+                        parseInt(e.target.value.substring(3, 6).trim())
+                      )
+                    }
                     required
                   >
                     <option>Net 01 Day</option>
@@ -250,8 +291,40 @@ const Invoices = () => {
                     <td>Total</td>
                   </tr>
                 </thead>
+                <tbody>
+                  {items.length > 0
+                    ? items.map((e, index) => (
+                        <tr className="items-row">
+                          <td>{e.name}</td>
+                          <td>{e.quantity}</td>
+                          <td>{e.price}</td>
+                          <td>{e.total}</td>
+                          <td>
+                            <img
+                              src={IconDelete}
+                              alt="delete icon"
+                              onClick={() => {
+                                const updatedItems = items.filter(
+                                  (e, i) => i !== index
+                                );
+                                setItems(updatedItems);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    : null}
+                </tbody>
               </table>
-              <div className="item-list-btn">+ Add New Items</div>
+              <AddItemModal
+                addItem={setItems}
+                items={items}
+                showItemModal={showItemModal}
+                handleCloseModal={handleCloseModal}
+              />
+              <div className="item-list-btn" onClick={handleShowModal}>
+                + Add New Items
+              </div>
               <div className="action-btn-wrapper">
                 <div className="action-btn">
                   <Button
@@ -261,7 +334,15 @@ const Invoices = () => {
                     Discard
                   </Button>
                   <div>
-                    <Button color="var(--primary-color)">Save as Draft</Button>
+                    <Button
+                      color="var(--primary-color)"
+                      handleAction={() => {
+                        saveInvoice("Draft");
+                        saveInvoice();
+                      }}
+                    >
+                      Save as Draft
+                    </Button>
                     <Button
                       color="var(--mark-color)"
                       handleAction={saveInvoice}
@@ -271,12 +352,45 @@ const Invoices = () => {
                   </div>
                 </div>
               </div>
+              <div className="responsive-action-btn">
+                <span>
+                  <Button
+                    color= "var(--add-item-button-bg)"
+                    txt="var(--add-item-button-color)"
+                  >
+                    Discard
+                  </Button>
+                  <div>
+                    <Button
+                      color="var(--primary-color)"
+                      handleAction={() => {
+                        saveInvoice("Draft");
+                      }}
+                    >
+                      Save as Draft
+                    </Button>
+                    <Button
+                      color="var(--mark-color)"
+                      handleAction={saveInvoice}
+                    >
+                      Save & Send
+                    </Button>
+                  </div>
+                </span>
+              </div>
             </div>
           </form>
         </div>
       </Modal>
-      <InvoiceHeader total={invoices.length} handleOpen={handleModalOpen} />
-      {invoices.length > 0 ? (
+      <InvoiceHeader
+        total={invoices.length}
+        handleOpen={handleModalOpen}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        handleOptionChange={handleOptionChange}
+        selectedOption={selectedOption}
+      />
+      {(isLoading) ? <LoadingAnimation /> : invoices.length > 0 ? (
         invoices.map((invoice) => (
           <InvoiceCard key={invoice.id} invoice={invoice} />
         ))
@@ -300,7 +414,14 @@ const Invoices = () => {
   );
 };
 
-const InvoiceHeader = ({ total, handleOpen }) => (
+const InvoiceHeader = ({
+  total,
+  handleOpen,
+  isOpen,
+  setIsOpen,
+  handleOptionChange,
+  selectedOption,
+}) => (
   <>
     <div className="invoice-header">
       <div className="invoice-title">
@@ -309,7 +430,69 @@ const InvoiceHeader = ({ total, handleOpen }) => (
       </div>
       <div className="invoice-action">
         <span className="invoice-filter">
-          Filter by status <img src={IconArrowDown} alt="icon-arrow-down" />
+          <div className="dropdown-container">
+            <div
+              className="dropdown-trigger"
+              onClick={() => {
+                setIsOpen(!isOpen);
+                console.log(isOpen);
+              }}
+            >
+              <span className="filter-text">
+                Filter <span className="by-status">by status</span>
+              </span>
+              <img
+                src={isOpen ? IconArrowUp : IconArrowDown}
+                alt="icon-arrow-down"
+              />
+            </div>
+            {isOpen && (
+              <div className="dropdown-options">
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    value="Draft"
+                    checked={selectedOption === "Draft"}
+                    onChange={handleOptionChange}
+                  />
+                  <span className="radio-custom">
+                    {selectedOption === "Draft" && (
+                      <img src={IconCheck} alt="icon-check" />
+                    )}
+                  </span>
+                  Draft
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    value="Pending"
+                    checked={selectedOption === "Pending"}
+                    onChange={handleOptionChange}
+                  />
+                  <span className="radio-custom">
+                    {selectedOption === "Pending" && (
+                      <img src={IconCheck} alt="icon-check" />
+                    )}
+                  </span>
+                  Pending
+                </label>
+                <label className="radio-label">
+                  <input
+                    type="radio"
+                    value="Paid"
+                    checked={selectedOption === "Paid"}
+                    onChange={handleOptionChange}
+                  />
+                  <span className="radio-custom">
+                    {selectedOption === "Paid" && (
+                      <img src={IconCheck} alt="icon-check" />
+                    )}
+                  </span>
+                  Paid
+                </label>
+              </div>
+            )}
+          </div>
         </span>
         <InvoiceButton handleOpen={handleOpen} />
       </div>

@@ -4,7 +4,7 @@ import "./Button.css";
 const Button = ({ children, color, txt, handleAction }) => (
   <>
     <input
-      className="action-btn"
+      className="action-button"
       style={{ background: color, color: txt ?? "#ffffff" }}
       onClick={handleAction}
       value={children}

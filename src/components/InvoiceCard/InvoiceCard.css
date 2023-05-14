@@ -1,6 +1,6 @@
 .invoice-card {
   width: calc(100vw / 2);
-  padding: 8px 32px;
+  padding: 10px 32px;
   background: var(--card-color);
   box-shadow: var(--box-shadow);
   border-radius: 8px;
@@ -33,22 +33,23 @@
   color: var(--font-color-white);
 }
 
-.responsive-card{
-  display: flex;  
+.responsive-card {
+  width: 100%;
+  display: flex;
   justify-content: space-around;
-  align-items: center; 
+  align-items: center;
   gap: 37px;
 }
 
 @media only screen and (max-width: 767px) {
-  .invoice-card{
-    width: calc(100vw - 150px);
+  .invoice-card {
+    width: calc(100vw - 100px);
     overflow: hidden;
   }
-  .responsive-card{
-    display: block;
+  .responsive-card {
+    display: inline;
   }
-  .arrow-right{
+  .arrow-right {
     display: none;
   }
 }

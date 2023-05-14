@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SideNav, StatusButton, Button, Modal } from "../../components";
+import { SideNav, StatusButton, Button, Modal, AddItemModal } from "../../components";
 import "./ViewInvoice.css";
 import { IconArrowLeft, IconDelete } from "../../assets";
-import { deleteInvoice, markInvoiceAsPaid, updateInvoice } from "../../services/crud";
+import {
+  deleteInvoice,
+  markInvoiceAsPaid,
+  updateInvoice,
+} from "../../services/crud";
 
 const ViewInvoice = () => {
   // handling passed data
@@ -14,6 +18,7 @@ const ViewInvoice = () => {
   // useState hooks
   const [showModal, setShowModal] = React.useState(false);
   const [showSideModal, setShowSideModal] = React.useState(false);
+  const [showItemModal, setShowItemModal] = React.useState(false);
 
   // handling opening of delete modal
   const openModal = () => {
@@ -76,7 +81,7 @@ const ViewInvoice = () => {
   );
   const [paymentTerms, setPaymentTerms] = React.useState(state?.paymentterms);
   const [description, setDescription] = React.useState(state?.description);
-  const [items, setItems] = React.useState([]);
+  const [items, setItems] = React.useState(state?.items);
   const [total, setTotal] = React.useState(0.0);
   const [status, setStatus] = React.useState("Pending");
 
@@ -91,6 +96,9 @@ const ViewInvoice = () => {
   const [clientCountry, setClientCountry] = React.useState(
     state?.clientaddress.country
   );
+
+  const handleShowModal = () => setShowItemModal(true);
+  const handleCloseModal = () => setShowItemModal(false);
 
   const editInvoice = async () => {
     await updateInvoice(
@@ -113,8 +121,8 @@ const ViewInvoice = () => {
           postCode: clientPostCode,
           country: clientCountry,
         },
-        items: [],
-        total: total,
+        items: items,
+        total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
       },
       state?.id
     );
@@ -122,7 +130,7 @@ const ViewInvoice = () => {
 
   const readInvoice = () => {
     // TODO: read the invoice by id
-  }
+  };
 
   const markAsPaid = async () => {
     await markInvoiceAsPaid(`${state?.id}`);
@@ -131,7 +139,7 @@ const ViewInvoice = () => {
 
   // rendering the UI elements
   return (
-    <>
+    <div className="view-invoice-wrapper">
       <div className="back-button" onClick={handleClick}>
         <img src={IconArrowLeft} alt="go back" />
         <p>Go back</p>
@@ -154,6 +162,11 @@ const ViewInvoice = () => {
       />
       <Modal show={showSideModal} handleClose={closeSideModal}>
         <div className="create-invoice-wrapper">
+          <div className="back-btn" onClick={handleClick}>
+            <img src={IconArrowLeft} alt="go back" />
+            <p>Go back</p>
+          </div>
+
           <h5>Edit #{state?.id}</h5>
           <form>
             <div className="bill-from">
@@ -328,20 +341,37 @@ const ViewInvoice = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {state?.items.map((e) => (
-                    <tr className="items-row">
-                      <td>{e.name}</td>
-                      <td>{e.quantity}</td>
-                      <td>{e.price}</td>
-                      <td>{e.total}</td>
-                      <td>
-                        <img src={IconDelete} alt="delete icon" />
-                      </td>
-                    </tr>
-                  ))}
+                  {items.length > 0
+                    ? items.map((e, index) => (
+                        <tr className="items-row">
+                          <td>{e.name}</td>
+                          <td>{e.quantity}</td>
+                          <td>{e.price}</td>
+                          <td>{e.total}</td>
+                          <td>
+                            <img
+                              src={IconDelete}
+                              alt="delete icon"
+                              onClick={() => {
+                                const updatedItems = items.filter(
+                                  (e, i) => i !== index
+                                );
+                                setItems(updatedItems);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    : null}
                 </tbody>
               </table>
-              <div className="item-list-btn">+ Add New Items</div>
+              <AddItemModal
+                showItemModal={showItemModal}
+                handleCloseModal={handleCloseModal}
+              />
+              <div className="item-list-btn" onClick={handleShowModal}>
+                + Add New Items
+              </div>
               <div className="action-container">
                 <div className="action-btn-wrapper">
                   <div className="action-btn">
@@ -365,34 +395,87 @@ const ViewInvoice = () => {
                   </div>
                 </div>
               </div>
+              <div className="responsive-action-btn">
+                <span>
+                  <Button
+                    color= "var(--add-item-button-bg)"
+                    txt="var(--add-item-button-color)"
+                  >
+                    Discard
+                  </Button>
+                  <div>
+                    <Button
+                      color="var(--primary-color)"
+                      handleAction={() => {
+                        // editInvoice("Draft");
+                      }}
+                    >
+                      Save as Draft
+                    </Button>
+                    <Button
+                      color="var(--mark-color)"
+                      handleAction={editInvoice}
+                    >
+                      Save & Send
+                    </Button>
+                  </div>
+                </span>
+              </div>
             </div>
           </form>
         </div>
       </Modal>
-    </>
+
+      <div className="responsive-action">
+        <span>
+          <Button
+            color="var(--edit-color)"
+            txt="#7E88C3"
+            handleAction={openSideModal}
+          >
+            Edit
+          </Button>
+          <Button color="var(--delete-color)" handleAction={openModal}>
+            Delete
+          </Button>
+          <Button color="var(--mark-color)" handleAction={markInvoiceAsPaid}>
+            Mark as Paid
+          </Button>
+        </span>
+      </div>
+    </div>
   );
 };
 
-const ViewInvoiceHeader = ({ status, openModal, openSideModal, markInvoiceAsPaid }) => (
+const ViewInvoiceHeader = ({
+  status,
+  openModal,
+  openSideModal,
+  markInvoiceAsPaid,
+}) => (
   <div className="view-invoice-header">
-    <div>
+    <div className="status-btn">
       <p>Status</p>
-      <StatusButton status={status} />
+      <span>
+        <StatusButton status={status} />
+      </span>
     </div>
-    <div>
-      <Button
-        color="var(--edit-color)"
-        txt="#7E88C3"
-        handleAction={openSideModal}
-      >
-        Edit
-      </Button>
-      <Button color="var(--delete-color)" handleAction={openModal}>
-        Delete
-      </Button>
-      <Button color="var(--mark-color)" handleAction={markInvoiceAsPaid}>
-        Mark as Paid
-      </Button>
+    <div className="action-hide">
+      <div className="action-btn">
+        <Button
+          color="var(--edit-color)"
+          txt="#7E88C3"
+          handleAction={openSideModal}
+        >
+          Edit
+        </Button>
+        <Button color="var(--delete-color)" handleAction={openModal}>
+          Delete
+        </Button>
+        <Button color="var(--mark-color)" handleAction={markInvoiceAsPaid}>
+          Mark as Paid
+        </Button>
+      </div>
     </div>
   </div>
 );
@@ -413,25 +496,28 @@ const ViewInvoiceContent = ({ state }) => (
         </div>
       </div>
       <div className="view-invoice-details">
-        <div>
+        <div className="address-1">
           <div>
-            <p>Invoice Date</p>
-            <h5>{state?.createdat.substring(0, 10)}</h5>
+            <div>
+              <p>Invoice Date</p>
+              <h5>{state?.createdat.substring(0, 10)}</h5>
+            </div>
+            <div>
+              <p>Payment Due</p>
+              <h5>{state?.paymentdue.substring(0, 10)}</h5>
+            </div>
           </div>
           <div>
-            <p>Payment Due</p>
-            <h5>{state?.paymentdue.substring(0, 10)}</h5>
+            <p>Bill To</p>
+            <h5>{state?.clientname}</h5>
+            <div>
+              <p>{state?.clientaddress.street}</p>
+              <p>{state?.clientaddress.city}</p>
+              <p>{state?.clientaddress.postcode}</p>
+              <p>{state?.clientaddress.country}</p>
+            </div>
           </div>
-        </div>
-        <div>
-          <p>Bill To</p>
-          <h5>{state?.clientname}</h5>
-          <div>
-            <p>{state?.clientaddress.street}</p>
-            <p>{state?.clientaddress.city}</p>
-            <p>{state?.clientaddress.postcode}</p>
-            <p>{state?.clientaddress.country}</p>
-          </div>
+          <div></div>
         </div>
         <div>
           <p>Sent To</p>

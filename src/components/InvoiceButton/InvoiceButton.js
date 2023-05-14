@@ -9,7 +9,7 @@ const InvoiceButton = ({handleOpen}) => {
         <div>
           <img src={IconPlus} />
         </div>
-        New Invoice
+        New <span className="new-invoice">Invoice</span>
       </div>
     </>
   );
