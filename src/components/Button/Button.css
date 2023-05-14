@@ -1,11 +1,23 @@
 .action-button {
-  height: 48px;
   border-radius: 24px;
   font-size: 12px;
   line-height: 15px;
   font-family: "SpartanBold";
-  padding: 0px 24px;
+  padding: 15px 24px;
   cursor: pointer;
   text-align: center;
   border: none;
+  /* width: calc(100vw / 20); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .action-button {
+    width: calc(100vw / 4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

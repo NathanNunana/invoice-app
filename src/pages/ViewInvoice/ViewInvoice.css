@@ -283,4 +283,7 @@ tbody {
   .action-container{
     display: none;
   }
+  .modal-content{
+    margin: 0px 20px;
+  }
 }

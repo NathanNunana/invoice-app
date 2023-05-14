@@ -35,7 +35,7 @@ const ViewInvoice = () => {
     setShowSideModal(true);
   };
 
-  // handling closing of delete modal
+  // handling closing of edit modal
   const closeSideModal = () => {
     setShowSideModal(false);
   };
@@ -346,8 +346,8 @@ const ViewInvoice = () => {
                         <tr className="items-row">
                           <td>{e.name}</td>
                           <td>{e.quantity}</td>
-                          <td>{e.price}</td>
-                          <td>{e.total}</td>
+                          <td>{e.price.toFixed(2)}</td>
+                          <td>{e.total.toFixed(2)}</td>
                           <td>
                             <img
                               src={IconDelete}
@@ -395,31 +395,25 @@ const ViewInvoice = () => {
                   </div>
                 </div>
               </div>
+              <div className="responsive-action-btn-wrapper">
               <div className="responsive-action-btn">
                 <span>
-                  <Button
-                    color= "var(--add-item-button-bg)"
-                    txt="var(--add-item-button-color)"
-                  >
-                    Discard
-                  </Button>
                   <div>
                     <Button
                       color="var(--primary-color)"
-                      handleAction={() => {
-                        // editInvoice("Draft");
-                      }}
+                      handleAction={()=>navigate("/")}
                     >
-                      Save as Draft
+                      Cancel
                     </Button>
                     <Button
                       color="var(--mark-color)"
                       handleAction={editInvoice}
                     >
-                      Save & Send
+                      Save Changes
                     </Button>
                   </div>
                 </span>
+              </div>
               </div>
             </div>
           </form>
@@ -537,15 +531,15 @@ const ViewInvoiceContent = ({ state }) => (
               <tr>
                 <td>{e.name}</td>
                 <td>{e.quantity}</td>
-                <td>{e.price}</td>
-                <td>{e.total}</td>
+                <td>£ {" "} {e.price.toFixed(2)}</td>
+                <td>£ {" "} {e.total.toFixed(2)}</td>
               </tr>
             ))}
           </table>
         </div>
         <div className="total-tag">
           <p>Amount Due</p>
-          <h5>£{state?.total.substring(1)}</h5>
+          <h5>£{" "}{state?.total.substring(1)}</h5>
         </div>
         <div className="spacer"></div>
       </div>

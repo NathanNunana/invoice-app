@@ -325,6 +325,7 @@ const Invoices = () => {
               <div className="item-list-btn" onClick={handleShowModal}>
                 + Add New Items
               </div>
+          
               <div className="action-btn-wrapper">
                 <div className="action-btn">
                   <Button
@@ -352,6 +353,7 @@ const Invoices = () => {
                   </div>
                 </div>
               </div>
+              <div className="responsive-action-btn-wrapper">
               <div className="responsive-action-btn">
                 <span>
                   <Button
@@ -377,6 +379,7 @@ const Invoices = () => {
                     </Button>
                   </div>
                 </span>
+              </div>
               </div>
             </div>
           </form>

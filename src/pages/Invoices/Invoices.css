@@ -261,19 +261,26 @@ option {
   }
 
   .responsive-action-btn {
-    display: block;
+    display: flex;
     width: 80%;
   }
   .responsive-action-btn span{
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 20px 0px;
     /* margin-top: 50px; */
   }
   .responsive-action-btn span div{
     display: flex;
     gap: 10px;
+  }
+
+  .responsive-action-btn-wrapper{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: var(--card-color);
   }
 
   .back-btn {
