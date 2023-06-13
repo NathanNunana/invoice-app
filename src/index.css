@@ -21,6 +21,7 @@
 }
 
 :root {
+  --color-white: #ffffff;
   --primary-color: #373b53;
   --secondary-color: #7c5dfa;
   --secondary-color-opacity: #9277ff;
@@ -34,22 +35,27 @@
   --edit-color: #f9fafe;
   --delete-color: #ec5757;
   --mark-color: #7c5dfa;
-  --input-box-color: #ffffff;
+  --input-box-color: var(--color-white);
   --input-box-border:#DFE3FA;
-  --modal-color: #FFFFFF;
+  --modal-color: var(--color-white);
   --add-item-button-bg: #F9FAFE;
   --add-item-button-color: #7E88C3;
   --date-icon-color: light;
+  --add-invoice-hover: #9277FF;
+  --delete-hover: #FF9797;
+  --edit-hover: #DFE3FA;
+  --mark-hover: var(--add-invoice-hover);
 }
 [data-theme="dark"] {
+  --color-white: #ffffff;
   --primary-color: #373b53;
   --secondary-color: #7c5dfa;
   --secondary-color-opacity: #9277ff;
   --font-color-light: #dfe3fa;
-  --font-color-white: #ffffff;
+  --font-color-white: var(--color-white);
   --font-color-status: #dfe3fa11;
   --bg-color: #141625;
-  --card-color: #1e2139;
+  --card-color: #1E2139;
   --card-color2: #252945;
   --card-color3: #0C0E16;
   --box-shadow: 0px 10px 10px -10px rgba(43, 45, 62, 0.1);
@@ -60,8 +66,11 @@
   --input-box-border: #252945;
   --modal-color: #141625; 
   --add-item-button-bg: #252945;
-  --add-item-button-color: #ffffff;
+  --add-item-button-color: var(--color-white);
   --date-icon-color: dark;
+  --add-invoice-hover: #9277FF;
+  --edit-hover: var(--color-white);
+  --mark-hover: var(--add-invoice-hover);
 }
 
 * {

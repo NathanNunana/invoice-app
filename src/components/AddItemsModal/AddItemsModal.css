@@ -11,16 +11,22 @@
   }
   
   .edit-modal-content {
+    width: calc(100vw / 4);
     background-color: var(--modal-color);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px var(--box-shadow);
   }
+
+  .edit-modal-content h2{
+    text-align: center;
+  }
   
   .modal-input {
-    width: 90%;
+    width: 95%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin: auto auto;
+    margin-bottom: 20px;
     border: 1px solid var(--input-box-border);
     background: var(--input-box-color);
     border-radius: 4px;
@@ -33,3 +39,9 @@
     margin-top: 20;
     gap: 20px;
   }  
+
+  @media only screen and (max-width: 767px) {
+    .edit-modal-content {
+      width: calc(100vw / 1.5);
+    }
+  }

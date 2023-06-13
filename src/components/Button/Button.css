@@ -13,6 +13,10 @@
   align-items: center;
 }
 
+.action-button:hover[value="Edit Button"]{
+  background: var(--color-white);
+}
+
 @media only screen and (max-width: 767px) {
   .action-button {
     width: calc(100vw / 4);

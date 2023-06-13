@@ -124,6 +124,7 @@ option {
   width: 90%;
 }
 .action-btn {
+  width: 75%;
   margin: 20px 0px;
   display: flex;
   justify-content: space-between;
@@ -132,16 +133,23 @@ option {
 }
 .action-btn div {
   display: flex;
+  width: 100%;
   gap: 20px;
+  justify-content: end;
 }
 .action-container {
-  width: calc(100% + 45px);
+  width: calc(100% - 5px);
+  position: absolute;
+  right: 0;
+  left: 50px;
   margin: 0;
   padding: 5px;
   background: var(--input-box-color);
   border-radius: 26px 26px 0px 0px;
   padding-left: 0;
   transform: translate(-50px, 10px);
+  display: flex;
+  justify-content: center;
 }
 
 .dropdown-container {
@@ -203,6 +211,11 @@ option {
 
 .back-btn {
   display: none;
+}
+
+.responsive-action-btn-wrapper{
+  position: relative;
+  width: 100%;
 }
 
 @media only screen and (max-width: 767px) {

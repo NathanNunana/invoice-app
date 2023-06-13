@@ -1,17 +1,28 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SideNav, StatusButton, Button, Modal, AddItemModal } from "../../components";
+import {
+  SideNav,
+  StatusButton,
+  Button,
+  Modal,
+  AddItemModal,
+} from "../../components";
 import "./ViewInvoice.css";
 import { IconArrowLeft, IconDelete } from "../../assets";
 import {
   deleteInvoice,
   markInvoiceAsPaid,
+  readInvoiceById,
   updateInvoice,
 } from "../../services/crud";
 
 const ViewInvoice = () => {
   // handling passed data
-  const { state } = useLocation();
+  const data = useLocation();
+
+  const [state, setState] = React.useState(data.state);
+
+  const id = localStorage.getItem("id");
 
   // localStorage.set(state);
 
@@ -82,7 +93,6 @@ const ViewInvoice = () => {
   const [paymentTerms, setPaymentTerms] = React.useState(state?.paymentterms);
   const [description, setDescription] = React.useState(state?.description);
   const [items, setItems] = React.useState(state?.items);
-  const [total, setTotal] = React.useState(0.0);
   const [status, setStatus] = React.useState("Pending");
 
   // Client Address Controllers
@@ -128,13 +138,20 @@ const ViewInvoice = () => {
     );
   };
 
-  const readInvoice = () => {
-    // TODO: read the invoice by id
-  };
+  // reading invoice data
+  useEffect(() => {
+    const readData = async () => {
+      const invoice = await readInvoiceById(id);
+      setState(JSON.parse(invoice)[0]);
+      // setIsLoading(false);
+    };
+    readData();
+  }, []);
 
   const markAsPaid = async () => {
     await markInvoiceAsPaid(`${state?.id}`);
-    navigate("/");
+    setStatus('Paid')
+    window.location.reload()
   };
 
   // rendering the UI elements
@@ -341,13 +358,15 @@ const ViewInvoice = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {items.length > 0
+                  {!items
+                    ? null
+                    : items.length > 0
                     ? items.map((e, index) => (
                         <tr className="items-row">
                           <td>{e.name}</td>
                           <td>{e.quantity}</td>
-                          <td>{e.price.toFixed(2)}</td>
-                          <td>{e.total.toFixed(2)}</td>
+                          <td>{e.price}</td>
+                          <td>{e.total}</td>
                           <td>
                             <img
                               src={IconDelete}
@@ -372,48 +391,50 @@ const ViewInvoice = () => {
               <div className="item-list-btn" onClick={handleShowModal}>
                 + Add New Items
               </div>
-              <div className="action-container">
-                <div className="action-btn-wrapper">
-                  <div className="action-btn">
-                    <Button
-                      color="var(--add-item-button-bg)"
-                      txt="var(--add-item-button-color)"
-                    >
-                      Discard
-                    </Button>
-                    <div>
-                      <Button color="var(--primary-color)">
-                        Save as Draft
-                      </Button>
-                      <Button
-                        color="var(--mark-color)"
-                        handleAction={editInvoice}
-                      >
-                        Save & Send
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="responsive-action-btn-wrapper">
-              <div className="responsive-action-btn">
-                <span>
+              <div className="action-container action-btn-wrapper">
+                <div className="action-btn">
                   <div>
                     <Button
                       color="var(--primary-color)"
-                      handleAction={()=>navigate("/")}
+                      handleAction={(e) => {
+                        e.preventDefault()
+                        closeSideModal()
+                      }}
                     >
                       Cancel
                     </Button>
                     <Button
+                      hover_color="var(--mark-hover)"
                       color="var(--mark-color)"
                       handleAction={editInvoice}
                     >
                       Save Changes
                     </Button>
                   </div>
-                </span>
+                </div>
               </div>
+              <div className="responsive-action-btn-wrapper">
+                <div className="responsive-action-btn">
+                  <span>
+                    <div>
+                      <Button
+                        color="var(--primary-color)"
+                        handleAction={(e) => {
+                          e.preventDefault()
+                          closeSideModal()
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        color="var(--mark-color)"
+                        handleAction={editInvoice}
+                      >
+                        Save Changes
+                      </Button>
+                    </div>
+                  </span>
+                </div>
               </div>
             </div>
           </form>
@@ -432,7 +453,7 @@ const ViewInvoice = () => {
           <Button color="var(--delete-color)" handleAction={openModal}>
             Delete
           </Button>
-          <Button color="var(--mark-color)" handleAction={markInvoiceAsPaid}>
+          <Button color="var(--mark-color)" handleAction={markAsPaid}>
             Mark as Paid
           </Button>
         </span>
@@ -457,16 +478,25 @@ const ViewInvoiceHeader = ({
     <div className="action-hide">
       <div className="action-btn">
         <Button
+          hover_color="var(--edit-hover)"
           color="var(--edit-color)"
           txt="#7E88C3"
           handleAction={openSideModal}
         >
           Edit
         </Button>
-        <Button color="var(--delete-color)" handleAction={openModal}>
+        <Button
+          hover_color="var(--delete-hover)"
+          color="var(--delete-color)"
+          handleAction={openModal}
+        >
           Delete
         </Button>
-        <Button color="var(--mark-color)" handleAction={markInvoiceAsPaid}>
+        <Button
+          hover_color="var(--mark-hover)"
+          color="var(--mark-color)"
+          handleAction={markInvoiceAsPaid}
+        >
           Mark as Paid
         </Button>
       </div>
@@ -531,15 +561,15 @@ const ViewInvoiceContent = ({ state }) => (
               <tr>
                 <td>{e.name}</td>
                 <td>{e.quantity}</td>
-                <td>£ {" "} {e.price.toFixed(2)}</td>
-                <td>£ {" "} {e.total.toFixed(2)}</td>
+                <td>£ {e.price.toFixed(2)}</td>
+                <td>£ {e.total}</td>
               </tr>
             ))}
           </table>
         </div>
         <div className="total-tag">
           <p>Amount Due</p>
-          <h5>£{" "}{state?.total.substring(1)}</h5>
+          <h5>£ {state?.total.substring(1)}</h5>
         </div>
         <div className="spacer"></div>
       </div>

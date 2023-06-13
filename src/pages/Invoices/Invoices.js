@@ -60,6 +60,8 @@ const Invoices = () => {
 
   const [isLoading, setIsLoading] = React.useState(true);
 
+  const navigate = useNavigate();
+
   const handleOptionChange = async (event) => {
     setSelectedOption(event.target.value);
     const filteredInvoice = await filterInvoiceByStatus(event.target.value);
@@ -95,6 +97,7 @@ const Invoices = () => {
   const handleCloseModal = () => setShowItemModal(false);
 
   const saveInvoice = async () => {
+    console.log(status)
     await createInvoice({
       paymentDue: paymentDue,
       description: description,
@@ -325,21 +328,27 @@ const Invoices = () => {
               <div className="item-list-btn" onClick={handleShowModal}>
                 + Add New Items
               </div>
-          
-              <div className="action-btn-wrapper">
+
+              <div className="action-container action-btn-wrapper">
                 <div className="action-btn">
-                  <Button
+                  <button
                     color="var(--add-item-button-bg)"
                     txt="var(--add-item-button-color)"
+                    handleAction={(e) => {
+                      e.preventDefault()
+                      handleModalClose()
+                    }}
                   >
                     Discard
-                  </Button>
+                  </button>
                   <div>
                     <Button
                       color="var(--primary-color)"
-                      handleAction={() => {
-                        saveInvoice("Draft");
-                        saveInvoice();
+                      handleAction={(e) => {
+                        e.preventDefault()
+                        setStatus("Draft")
+                        console.log(status)
+                        saveInvoice()
                       }}
                     >
                       Save as Draft
@@ -354,32 +363,39 @@ const Invoices = () => {
                 </div>
               </div>
               <div className="responsive-action-btn-wrapper">
-              <div className="responsive-action-btn">
-                <span>
-                  <Button
-                    color= "var(--add-item-button-bg)"
-                    txt="var(--add-item-button-color)"
-                  >
-                    Discard
-                  </Button>
-                  <div>
+                <div className="responsive-action-btn">
+                  <span>
                     <Button
-                      color="var(--primary-color)"
-                      handleAction={() => {
-                        saveInvoice("Draft");
+                      color="var(--add-item-button-bg)"
+                      txt="var(--add-item-button-color)"
+                      handleAction={(e) => {
+                        e.preventDefault()
+                        handleModalClose()
                       }}
                     >
-                      Save as Draft
+                      Discard
                     </Button>
-                    <Button
-                      color="var(--mark-color)"
-                      handleAction={saveInvoice}
-                    >
-                      Save & Send
-                    </Button>
-                  </div>
-                </span>
-              </div>
+                    <div>
+                      <Button
+                        color="var(--primary-color)"
+                        handleAction={(e) => {
+                          e.preventDefault()
+                          setStatus("Draft")
+                          console.log(status)
+                          saveInvoice();
+                        }}
+                      >
+                        Save as Draft
+                      </Button>
+                      <Button
+                        color="var(--mark-color)"
+                        handleAction={saveInvoice}
+                      >
+                        Save & Send
+                      </Button>
+                    </div>
+                  </span>
+                </div>
               </div>
             </div>
           </form>
@@ -393,7 +409,9 @@ const Invoices = () => {
         handleOptionChange={handleOptionChange}
         selectedOption={selectedOption}
       />
-      {(isLoading) ? <LoadingAnimation /> : invoices.length > 0 ? (
+      {isLoading ? (
+        <LoadingAnimation />
+      ) : invoices.length > 0 ? (
         invoices.map((invoice) => (
           <InvoiceCard key={invoice.id} invoice={invoice} />
         ))

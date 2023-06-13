@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const baseUrl = "https://invoice-app-backend-dfaj.onrender.com/invoice";
-// const baseUrl = "http://localhost:8000/invoice";
+// const baseUrl = "https://invoice-app-backend-dfaj.onrender.com/invoice";
+const baseUrl = "http://localhost:8000/invoice";
 
 // create new invoice
 const createInvoice = async (invoice) =>
@@ -22,8 +22,9 @@ const readInvoice = async () =>
 // read invoice
 const readInvoiceById = async (id) =>
   await axios
-    .get(`baseUrl/${id}`)
+    .get(`${baseUrl}/${id}`)
     .then((res) => {
+      console.log('res' + JSON.stringify(res.data.invoice))
       return JSON.stringify(res.data.invoice);
     })
     .catch((e) => console.log(e));

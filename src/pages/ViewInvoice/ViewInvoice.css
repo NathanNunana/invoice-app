@@ -1,5 +1,5 @@
 .view-invoice-header {
-  width: 730px;
+  width: calc(100vw / 1.85);
   height: 88px;
   margin: auto;
   background: var(--card-color);
@@ -23,7 +23,7 @@
   background: var(--card-color);
   box-shadow: var(--box-shadow);
   border-radius: 8px;
-  width: 730px;
+  width: calc(100vw / 1.85);
   margin: auto;
 }
 .view-invoice-content .head {
@@ -50,10 +50,10 @@
 }
 .view-invoice-details {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   text-align: left;
   margin-right: 40px;
-}
+ }
 .view-invoice-details h5 {
   color: var(--font-color-white);
   font-family: "SpartanBold";
@@ -110,11 +110,10 @@
   font-size: 24px;
 }
 .back-button {
-  width: 730px;
+  width: calc(100vw / 1.85);
   margin: auto;
   display: flex;
   margin-top: 20px;
-  /* justify-content: center; */
   align-items: center;
   color: var(--font-color-white);
   font-family: "SpartanBold";
@@ -235,6 +234,7 @@ tbody {
   .view-invoice-details {
     padding: 5px 20px;
     overflow: hidden;
+
   }
   .view-invoice-wrapper {
     width: 100vw;

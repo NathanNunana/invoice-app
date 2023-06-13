@@ -11,6 +11,9 @@
   font-family: 'SpartanBold';
   cursor: pointer;
 }
+.invoice-button span{
+  margin-left: 4px;
+}
 
 .invoice-button div{
     background: #FFFFFF;

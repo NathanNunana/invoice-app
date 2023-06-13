@@ -9,6 +9,7 @@ const InvoiceCard = ({ invoice }) => {
 
   const handleClick = () => {
     navigate("/view-invoice", { state: invoice });
+    localStorage.setItem('id', invoice.id)
   };
   return (
     <>
