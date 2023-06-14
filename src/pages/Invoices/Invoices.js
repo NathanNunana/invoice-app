@@ -97,7 +97,6 @@ const Invoices = () => {
   const handleCloseModal = () => setShowItemModal(false);
 
   const saveInvoice = async (status) => {
-    console.log(status)
     await createInvoice({
       paymentDue: paymentDue,
       description: description,
@@ -120,6 +119,7 @@ const Invoices = () => {
       items: items,
       total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
     });
+    window.location.reload()
   };
 
   // render the UI elements
@@ -348,7 +348,6 @@ const Invoices = () => {
                         e.preventDefault()
                         saveInvoice("Draft")
                         handleModalClose()
-                        setStatus("Draft")
                       }}
                     >
                       Save as Draft
@@ -386,7 +385,6 @@ const Invoices = () => {
                           // setStatus("Draft")
                           saveInvoice("Draft");
                           handleModalClose()
-                          setStatus("Draft")
                         }}
                       >
                         Save as Draft
