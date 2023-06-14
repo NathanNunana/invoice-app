@@ -96,7 +96,7 @@ const Invoices = () => {
   const handleShowModal = () => setShowItemModal(true);
   const handleCloseModal = () => setShowItemModal(false);
 
-  const saveInvoice = async () => {
+  const saveInvoice = async (status) => {
     console.log(status)
     await createInvoice({
       paymentDue: paymentDue,
@@ -331,7 +331,7 @@ const Invoices = () => {
 
               <div className="action-container action-btn-wrapper">
                 <div className="action-btn">
-                  <button
+                  <Button
                     color="var(--add-item-button-bg)"
                     txt="var(--add-item-button-color)"
                     handleAction={(e) => {
@@ -340,22 +340,25 @@ const Invoices = () => {
                     }}
                   >
                     Discard
-                  </button>
+                  </Button>
                   <div>
                     <Button
                       color="var(--primary-color)"
                       handleAction={(e) => {
                         e.preventDefault()
+                        saveInvoice("Draft")
+                        handleModalClose()
                         setStatus("Draft")
-                        console.log(status)
-                        saveInvoice()
                       }}
                     >
                       Save as Draft
                     </Button>
                     <Button
                       color="var(--mark-color)"
-                      handleAction={saveInvoice}
+                      handleAction={()=>{
+                        saveInvoice("Pending")
+                        navigate("/")
+                      }}
                     >
                       Save & Send
                     </Button>
@@ -380,16 +383,20 @@ const Invoices = () => {
                         color="var(--primary-color)"
                         handleAction={(e) => {
                           e.preventDefault()
+                          // setStatus("Draft")
+                          saveInvoice("Draft");
+                          handleModalClose()
                           setStatus("Draft")
-                          console.log(status)
-                          saveInvoice();
                         }}
                       >
                         Save as Draft
                       </Button>
                       <Button
                         color="var(--mark-color)"
-                        handleAction={saveInvoice}
+                        handleAction={()=>{
+                          saveInvoice("Pending")
+                          navigate("/")
+                        }}
                       >
                         Save & Send
                       </Button>

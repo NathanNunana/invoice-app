@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const baseUrl = "https://invoice-app-backend-dfaj.onrender.com/invoice";
-const baseUrl = "http://localhost:8000/invoice";
+const baseUrl = "https://invoice-app-backend-dfaj.onrender.com/invoice";
+// const baseUrl = "http://localhost:8000/invoice";
 
 // create new invoice
 const createInvoice = async (invoice) =>
