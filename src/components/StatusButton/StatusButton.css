@@ -9,6 +9,8 @@
   align-items: center;
   font-size: 12px;
   line-height: 15px;
+  gap: 2px;
+  /* padding: 0 10px; */
 }
 .dot{
   border-radius: 50px;

@@ -1,5 +1,5 @@
 .view-invoice-header {
-  width: calc(100vw / 1.85);
+  width: calc(100vw / 2);
   height: 88px;
   margin: auto;
   background: var(--card-color);
@@ -7,23 +7,39 @@
   color: var(--font-color-white);
   border-radius: 8px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
   margin-top: 32px;
 }
-.view-invoice-header div {
+/* .view-invoice-header div {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 16px; */
+  /* padding: 0 20px; */
+/* } */
+.action-btn{
+  gap: 10px;
+}
+.status-btn{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-wrapper{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0px 32px;
 }
 
 .view-invoice-content {
   background: var(--card-color);
   box-shadow: var(--box-shadow);
   border-radius: 8px;
-  width: calc(100vw / 1.85);
+  width: calc(100vw / 2);
   margin: auto;
 }
 .view-invoice-content .head {
@@ -51,9 +67,12 @@
 .view-invoice-details {
   display: flex;
   justify-content: flex-start;
+  /* background-color: red; */
   text-align: left;
-  margin-right: 40px;
+  /* margin-right: 40px; */
+  padding: 0 48px;
  }
+
 .view-invoice-details h5 {
   color: var(--font-color-white);
   font-family: "SpartanBold";
@@ -77,10 +96,16 @@
 .invoice-table {
   width: 634px;
   margin: auto;
-  padding: 32px 0px 32px 10px;
+  padding: 32px 0px 32px 0px;
 }
-.invoice-table th {
+
+.invoice-table th:first-child, .invoice-table td:first-child{
+  width: 222px;
   text-align: left;
+}
+
+.invoice-table th {
+  text-align: right;
   font-size: 11px;
   line-height: 18px;
   color: var(--font-color-light);
@@ -91,6 +116,8 @@
   font-family: "SpartanBold";
   line-height: 18px;
   padding: 15px;
+  font-size: 12px;
+  text-align: right;
 }
 .total-tag {
   display: flex;
@@ -110,7 +137,7 @@
   font-size: 24px;
 }
 .back-button {
-  width: calc(100vw / 1.85);
+  width: calc(100vw / 2);
   margin: auto;
   display: flex;
   margin-top: 20px;
@@ -186,7 +213,8 @@ tbody {
 .address-1{
   display: flex;
   width: 100%;
-  justify-content: space-around;
+  justify-content: start;
+  gap: 100px;
 }
 .responsive-action{
   display: none;
@@ -198,16 +226,14 @@ tbody {
     width: 93%;
   }
   .view-invoice-header {
-    justify-content: space-around;
+    justify-content: space-between;
     /* background-color: antiquewhite; */
   }
   .status-btn {
     display: flex;
     justify-content: space-between;
-    position: relative;
-    left: 0;
     width: 100%;
-    background-color: red;
+    padding: 0 24px;
   }
   .status-btn p{
     position: absolute;
@@ -249,6 +275,7 @@ tbody {
     justify-content: space-between;
     padding: 0;
     margin: 0;
+    gap: 41px;
   }
   .responsive-action{
     position: absolute;

@@ -67,7 +67,6 @@ const ViewInvoice = () => {
     navigate("/");
   };
 
-  // New Invoice Controllers
   // Senders Address Controllers
   const [sendersStreet, setSendersStreet] = React.useState(
     state?.sendersaddress.street
@@ -150,8 +149,8 @@ const ViewInvoice = () => {
 
   const markAsPaid = async () => {
     await markInvoiceAsPaid(`${state?.id}`);
-    setStatus('Paid')
-    window.location.reload()
+    setStatus("Paid");
+    window.location.reload();
   };
 
   // rendering the UI elements
@@ -397,8 +396,8 @@ const ViewInvoice = () => {
                     <Button
                       color="var(--primary-color)"
                       handleAction={(e) => {
-                        e.preventDefault()
-                        closeSideModal()
+                        e.preventDefault();
+                        closeSideModal();
                       }}
                     >
                       Cancel
@@ -420,8 +419,8 @@ const ViewInvoice = () => {
                       <Button
                         color="var(--primary-color)"
                         handleAction={(e) => {
-                          e.preventDefault()
-                          closeSideModal()
+                          e.preventDefault();
+                          closeSideModal();
                         }}
                       >
                         Cancel
@@ -469,36 +468,38 @@ const ViewInvoiceHeader = ({
   markInvoiceAsPaid,
 }) => (
   <div className="view-invoice-header">
-    <div className="status-btn">
-      <p>Status</p>
-      <span>
-        <StatusButton status={status} />
-      </span>
-    </div>
-    <div className="action-hide">
-      <div className="action-btn">
-        <Button
-          hover_color="var(--edit-hover)"
-          color="var(--edit-color)"
-          txt="#7E88C3"
-          handleAction={openSideModal}
-        >
-          Edit
-        </Button>
-        <Button
-          hover_color="var(--delete-hover)"
-          color="var(--delete-color)"
-          handleAction={openModal}
-        >
-          Delete
-        </Button>
-        <Button
-          hover_color="var(--mark-hover)"
-          color="var(--mark-color)"
-          handleAction={markInvoiceAsPaid}
-        >
-          Mark as Paid
-        </Button>
+    <div className="header-wrapper">
+      <div className="status-btn">
+        <p>Status</p>
+        <span>
+          <StatusButton status={status} />
+        </span>
+      </div>
+      <div className="action-hide">
+        <div className="action-btn">
+          <Button
+            hover_color="var(--edit-hover)"
+            color="var(--edit-color)"
+            txt="#7E88C3"
+            handleAction={openSideModal}
+          >
+            Edit
+          </Button>
+          <Button
+            hover_color="var(--delete-hover)"
+            color="var(--delete-color)"
+            handleAction={openModal}
+          >
+            Delete
+          </Button>
+          <Button
+            hover_color="var(--mark-hover)"
+            color="var(--mark-color)"
+            handleAction={markInvoiceAsPaid}
+          >
+            Mark as Paid
+          </Button>
+        </div>
       </div>
     </div>
   </div>

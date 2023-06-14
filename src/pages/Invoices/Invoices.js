@@ -119,7 +119,7 @@ const Invoices = () => {
       items: items,
       total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
     });
-    window.location.reload()
+    window.location.reload();
   };
 
   // render the UI elements
