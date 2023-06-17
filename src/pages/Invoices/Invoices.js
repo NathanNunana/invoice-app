@@ -5,7 +5,6 @@ import {
   SideNav,
   Modal,
   Button,
-  AddItemModal,
   LoadingAnimation,
 } from "../../components";
 import {
@@ -46,7 +45,7 @@ const Invoices = () => {
   const [paymentTerms, setPaymentTerms] = React.useState(0);
   const [description, setDescription] = React.useState("");
   const [items, setItems] = React.useState([]);
-  const [status, setStatus] = React.useState("Pending");
+  const [status, setStatus] = React.useState("");
 
   // Client Address Controllers
   const [clientStreet, setClientStreet] = React.useState("");
@@ -54,14 +53,19 @@ const Invoices = () => {
   const [clientPostCode, setClientPostCode] = React.useState("");
   const [clientCountry, setClientCountry] = React.useState("");
 
+  // filter drop-down
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // filter selected option
   const [selectedOption, setSelectedOption] = React.useState("");
 
+  // loading state
   const [isLoading, setIsLoading] = React.useState(true);
 
+  // navigator
   const navigate = useNavigate();
 
+  // handling filter feature
   const handleOptionChange = async (event) => {
     setSelectedOption(event.target.value);
     const filteredInvoice = await filterInvoiceByStatus(event.target.value);
@@ -78,7 +82,6 @@ const Invoices = () => {
     readData();
   }, []);
 
-  console.log(`invoices:: ${JSON.stringify(invoices[0])}`);
   // handling opening of side modal
   const handleModalOpen = () => {
     setShowModal(true);
@@ -89,15 +92,14 @@ const Invoices = () => {
     setShowModal(false);
   };
 
+  // handling closing of side modal
   const handleClick = () => {
     handleModalClose();
   };
 
-  const handleShowModal = () => setShowItemModal(true);
-  const handleCloseModal = () => setShowItemModal(false);
-
+  // saving invoice
   const saveInvoice = async (status) => {
-    await createInvoice({
+    const invoice = {
       paymentDue: paymentDue,
       description: description,
       paymentTerms: paymentTerms,
@@ -118,8 +120,30 @@ const Invoices = () => {
       },
       items: items,
       total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-    });
+    };
+    await createInvoice(invoice);
+    setStatus(status)
     window.location.reload();
+  };
+
+  // items state
+  const [itemName, setItemName] = React.useState("");
+  const [quantity, setQuantity] = React.useState("");
+  const [amount, setAmount] = React.useState("");
+  const [newItem, setNewItem] = React.useState(false);
+
+  const handleAddItem = () => {
+    const newItem = {
+      name: itemName,
+      quantity: parseInt(quantity),
+      price: parseFloat(amount),
+      total: (parseFloat(amount) * parseInt(quantity)).toFixed(2),
+    };
+    setItems([...items, newItem]);
+    setItemName("");
+    setQuantity("");
+    setAmount("");
+    // setNewItem(false);
   };
 
   // render the UI elements
@@ -273,7 +297,7 @@ const Invoices = () => {
                 </div>
               </div>
               <div>
-                <label>Project Description</label>
+                <label>Project Description</label><br/>
                 <input
                   type="text"
                   className="input-boxes fill"
@@ -295,19 +319,31 @@ const Invoices = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {items.length > 0
-                    ? items.map((e, index) => (
+                  {!items
+                    ? null
+                    : items?.length > 0
+                    ? items?.map((e, index) => (
                         <tr className="items-row">
-                          <td>{e.name}</td>
-                          <td>{e.quantity}</td>
-                          <td>{e.price}</td>
+                          <td>
+                            <input className="input-box" value={e.name} />
+                          </td>
+                          <td>
+                            <input
+                              className="input-box"
+                              value={e.quantity}
+                              style={{ textAlign: "center" }}
+                            />
+                          </td>
+                          <td>
+                            <input className="input-box" value={e.price} />
+                          </td>
                           <td>{e.total}</td>
                           <td>
                             <img
                               src={IconDelete}
                               alt="delete icon"
                               onClick={() => {
-                                const updatedItems = items.filter(
+                                const updatedItems = items?.filter(
                                   (e, i) => i !== index
                                 );
                                 setItems(updatedItems);
@@ -316,16 +352,63 @@ const Invoices = () => {
                           </td>
                         </tr>
                       ))
-                    : null}
+                    : null}{" "}
+                  {newItem ? (
+                    <tr className="items-row">
+                      <td>
+                        <input
+                          className="input-box"
+                          value={itemName}
+                          onChange={(e) => setItemName(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className="input-box"
+                          value={quantity}
+                          type="number"
+                          min={1}
+                          onChange={(e) => setQuantity(e.target.value)}
+                          style={{ textAlign: "center" }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className="input-box"
+                          value={amount}
+                          min={1}
+                          type="number"
+                          onChange={(e) => setAmount(e.target.value)}
+                        />
+                      </td>
+                      <td>{(amount * quantity).toFixed(2)}</td>
+                      <td>
+                        <img
+                          src={IconDelete}
+                          alt="delete icon"
+                          onClick={() => setNewItem(false)}
+                        />
+                      </td>
+                    </tr>
+                  ) : null}
                 </tbody>
               </table>
-              <AddItemModal
-                addItem={setItems}
-                items={items}
-                showItemModal={showItemModal}
-                handleCloseModal={handleCloseModal}
-              />
-              <div className="item-list-btn" onClick={handleShowModal}>
+
+              <div
+                className="item-list-btn"
+                onClick={() => {
+                  setNewItem(true);
+                  if (
+                    itemName.length > 0 &&
+                    quantity.length > 0 &&
+                    amount.length > 0 &&
+                    amount >= 1 &&
+                    quantity >= 1
+                  ) {
+                    handleAddItem();
+                  }
+                }}
+              >
                 + Add New Items
               </div>
 
@@ -335,8 +418,8 @@ const Invoices = () => {
                     color="var(--add-item-button-bg)"
                     txt="var(--add-item-button-color)"
                     handleAction={(e) => {
-                      e.preventDefault()
-                      handleModalClose()
+                      e.preventDefault();
+                      handleModalClose();
                     }}
                   >
                     Discard
@@ -345,18 +428,21 @@ const Invoices = () => {
                     <Button
                       color="var(--primary-color)"
                       handleAction={(e) => {
-                        e.preventDefault()
-                        saveInvoice("Draft")
-                        handleModalClose()
+                        e.preventDefault();
+                        // setStatus("Draft");
+                        if(paymentDue.length<=0) setPaymentDue(Date.now)
+                        saveInvoice("Draft");
+                        handleModalClose();
                       }}
                     >
                       Save as Draft
                     </Button>
                     <Button
                       color="var(--mark-color)"
-                      handleAction={()=>{
-                        saveInvoice("Pending")
-                        navigate("/")
+                      handleAction={() => {
+                        // setStatus("Pending")
+                        saveInvoice("Pending");
+                        navigate("/");
                       }}
                     >
                       Save & Send
@@ -371,8 +457,8 @@ const Invoices = () => {
                       color="var(--add-item-button-bg)"
                       txt="var(--add-item-button-color)"
                       handleAction={(e) => {
-                        e.preventDefault()
-                        handleModalClose()
+                        e.preventDefault();
+                        handleModalClose();
                       }}
                     >
                       Discard
@@ -381,19 +467,21 @@ const Invoices = () => {
                       <Button
                         color="var(--primary-color)"
                         handleAction={(e) => {
-                          e.preventDefault()
+                          e.preventDefault();
                           // setStatus("Draft")
+                          if(paymentDue.length<=0) setPaymentDue(Date.now)
                           saveInvoice("Draft");
-                          handleModalClose()
+                          handleModalClose();
                         }}
                       >
                         Save as Draft
                       </Button>
                       <Button
                         color="var(--mark-color)"
-                        handleAction={()=>{
-                          saveInvoice("Pending")
-                          navigate("/")
+                        handleAction={() => {
+                          // setStatus("Pending");
+                          saveInvoice("Pending");
+                          navigate("/");
                         }}
                       >
                         Save & Send
@@ -440,6 +528,7 @@ const Invoices = () => {
   );
 };
 
+// invoice header component
 const InvoiceHeader = ({
   total,
   handleOpen,

@@ -196,16 +196,28 @@
 tbody {
   padding: 10px;
 }
-.items-row td {
+
+.input-box{
   background: var(--input-box-color);
   padding: 15px;
+  margin-right: 5px;
   border-radius: 4px;
   border: 1px solid var(--input-box-border);
+  color: var(--font-color-light);
 }
+
+/* .input-box:first-child{
+  width: 214px;
+} */
 .items-row td:last-child {
   background-color: var(--modal-color);
   border: none;
   cursor: pointer;
+  padding: 32px 38px;
+}
+
+.items-row td:last-child:hover{
+  color: red;
 }
 .spacer {
   padding: 10px;

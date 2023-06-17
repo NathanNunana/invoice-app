@@ -20,8 +20,10 @@ const ViewInvoice = () => {
   // handling passed data
   const data = useLocation();
 
+  // currect state of the invoice details
   const [state, setState] = React.useState(data.state);
 
+  // currently selected invoice id
   const id = localStorage.getItem("id");
 
   // localStorage.set(state);
@@ -29,7 +31,6 @@ const ViewInvoice = () => {
   // useState hooks
   const [showModal, setShowModal] = React.useState(false);
   const [showSideModal, setShowSideModal] = React.useState(false);
-  const [showItemModal, setShowItemModal] = React.useState(false);
 
   // handling opening of delete modal
   const openModal = () => {
@@ -68,47 +69,74 @@ const ViewInvoice = () => {
   };
 
   // Senders Address Controllers
-  const [sendersStreet, setSendersStreet] = React.useState(
-    state?.sendersaddress.street
-  );
-  const [sendersCity, setSendersCity] = React.useState(
-    state?.sendersaddress.city
-  );
-  const [sendersPostCode, setSendersPostCode] = React.useState(
-    state?.sendersaddress.postCode
-  );
-  const [sendersCountry, setSendersCountry] = React.useState(
-    state?.sendersaddress.country
-  );
+  const [sendersStreet, setSendersStreet] = React
+    .useState
+    // state?.sendersaddress.street
+    ();
+  const [sendersCity, setSendersCity] = React
+    .useState
+    // state?.sendersaddress.city
+    ();
+  const [sendersPostCode, setSendersPostCode] = React
+    .useState
+    // state?.sendersaddress.postCode
+    ();
+  const [sendersCountry, setSendersCountry] = React
+    .useState
+    // state?.sendersaddress.country
+    ();
 
   // Senders Address Controllers
-  const [clientName, setClientName] = React.useState(state?.clientname);
-  const [clientEmail, setClientEmail] = React.useState(state?.clientemail);
+  const [clientName, setClientName] = React
+    .useState
+    // state?.clientname
+    ();
+  const [clientEmail, setClientEmail] = React
+    .useState
+    // state?.clientemail
+    ();
 
   // Invoice Information
-  const [paymentDue, setPaymentDue] = React.useState(
-    state?.createdat.substring(0, 10)
-  );
-  const [paymentTerms, setPaymentTerms] = React.useState(state?.paymentterms);
-  const [description, setDescription] = React.useState(state?.description);
-  const [items, setItems] = React.useState(state?.items);
-  const [status, setStatus] = React.useState("Pending");
+  const [paymentDue, setPaymentDue] = React
+    .useState
+    // state?.createdat.substring(0, 10)
+    ();
+  const [paymentTerms, setPaymentTerms] = React
+    .useState
+    // state?.paymentterms
+    ();
+  const [description, setDescription] = React
+    .useState
+    // state?.description
+    ();
+  const [items, setItems] = React
+    .useState
+    // state?.items
+    ();
+  const [status, setStatus] = React.useState();
 
   // Client Address Controllers
-  const [clientStreet, setClientStreet] = React.useState(
-    state?.clientaddress.street
-  );
-  const [clientCity, setClientCity] = React.useState(state?.clientaddress.city);
-  const [clientPostCode, setClientPostCode] = React.useState(
-    state?.clientaddress.postCode
-  );
-  const [clientCountry, setClientCountry] = React.useState(
-    state?.clientaddress.country
-  );
+  const [clientStreet, setClientStreet] = React
+    .useState
+    // state?.clientaddress.street
+    ();
+  const [clientCity, setClientCity] = React
+    .useState
+    // state?.clientaddress.city
+    ();
+  const [clientPostCode, setClientPostCode] = React
+    .useState
+    // state?.clientaddress.postCode
+    ();
+  const [clientCountry, setClientCountry] = React
+    .useState
+    // state?.clientaddress.country
+    ();
 
-  const handleShowModal = () => setShowItemModal(true);
-  const handleCloseModal = () => setShowItemModal(false);
+  // const handleShowModal = () => setShowItemModal(true);
+  // const handleCloseModal = () => setShowItemModal(false);
 
+  // edit invoice
   const editInvoice = async () => {
     await updateInvoice(
       {
@@ -131,10 +159,12 @@ const ViewInvoice = () => {
           country: clientCountry,
         },
         items: items,
-        total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+        total: items.reduce((sum, item) => sum + item.price * item.quantity, 0), // computing the total of all the added items
       },
       state?.id
     );
+    window.location.reload()
+    closeSideModal()
   };
 
   // reading invoice data
@@ -147,10 +177,49 @@ const ViewInvoice = () => {
     readData();
   }, []);
 
+  useEffect(() => {
+    setSendersStreet(state?.sendersaddress.street);
+    setSendersCity(state?.sendersaddress.city);
+    setSendersPostCode(state?.sendersaddress.postCode);
+    setSendersCountry(state?.sendersaddress.country);
+    setClientName(state?.clientname);
+    setClientEmail(state?.clientemail);
+    setPaymentDue(state?.createdat.substring(0, 10));
+    setPaymentTerms(state?.paymentterms);
+    setDescription(state?.description);
+    setClientStreet(state?.clientaddress.street);
+    setClientCity(state?.clientaddress.city);
+    setClientPostCode(state?.clientaddress.postCode);
+    setClientCountry(state?.clientaddress.country);
+    setStatus(state?.status);
+    setItems(state?.items);
+  }, [state]);
+
+  // marking pending invoices as paid
   const markAsPaid = async () => {
     await markInvoiceAsPaid(`${state?.id}`);
     setStatus("Paid");
     window.location.reload();
+  };
+
+  // items state
+  const [itemName, setItemName] = React.useState("");
+  const [quantity, setQuantity] = React.useState("");
+  const [amount, setAmount] = React.useState("");
+  const [newItem, setNewItem] = React.useState(false);
+
+  const handleAddItem = () => {
+    const newItem = {
+      name: itemName,
+      quantity: parseInt(quantity),
+      price: parseFloat(amount),
+      total: (parseFloat(amount) * parseInt(quantity)).toFixed(2),
+    };
+    setItems([...items, newItem]);
+    setItemName("");
+    setQuantity("");
+    setAmount("");
+    // setNewItem(false);
   };
 
   // rendering the UI elements
@@ -178,7 +247,7 @@ const ViewInvoice = () => {
       />
       <Modal show={showSideModal} handleClose={closeSideModal}>
         <div className="create-invoice-wrapper">
-          <div className="back-btn" onClick={handleClick}>
+          <div className="back-btn" onClick={() => closeSideModal()}>
             <img src={IconArrowLeft} alt="go back" />
             <p>Go back</p>
           </div>
@@ -335,7 +404,7 @@ const ViewInvoice = () => {
                 </div>
               </div>
               <div>
-                <label>Project Description</label>
+                <label>Project Description</label><br/>
                 <input
                   type="text"
                   className="input-boxes fill"
@@ -359,19 +428,29 @@ const ViewInvoice = () => {
                 <tbody>
                   {!items
                     ? null
-                    : items.length > 0
-                    ? items.map((e, index) => (
+                    : items?.length > 0
+                    ? items?.map((e, index) => (
                         <tr className="items-row">
-                          <td>{e.name}</td>
-                          <td>{e.quantity}</td>
-                          <td>{e.price}</td>
+                          <td>
+                            <input className="input-box" value={e.name} />
+                          </td>
+                          <td>
+                            <input
+                              className="input-box"
+                              value={e.quantity}
+                              style={{ textAlign: "center" }}
+                            />
+                          </td>
+                          <td>
+                            <input className="input-box" value={e.price} />
+                          </td>
                           <td>{e.total}</td>
                           <td>
                             <img
                               src={IconDelete}
                               alt="delete icon"
                               onClick={() => {
-                                const updatedItems = items.filter(
+                                const updatedItems = items?.filter(
                                   (e, i) => i !== index
                                 );
                                 setItems(updatedItems);
@@ -381,13 +460,66 @@ const ViewInvoice = () => {
                         </tr>
                       ))
                     : null}
+                  {newItem ? (
+                    <tr className="items-row">
+                      <td>
+                        <input
+                          className="input-box"
+                          value={itemName}
+                          onChange={(e) => setItemName(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className="input-box"
+                          value={quantity}
+                          type="number"
+                          min={1}
+                          onChange={(e) => setQuantity(e.target.value)}
+                          style={{ textAlign: "center" }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className="input-box"
+                          value={amount}
+                          min={1}
+                          type="number"
+                          onChange={(e) => setAmount(e.target.value)}
+                        />
+                      </td>
+                      <td>{(amount * quantity).toFixed(2)}</td>
+                      <td>
+                        <img
+                          src={IconDelete}
+                          alt="delete icon"
+                          onClick={() => setNewItem(false)}
+                        />
+                      </td>
+                    </tr>
+                  ) : null}
                 </tbody>
               </table>
-              <AddItemModal
+              {/* <AddItemModal
                 showItemModal={showItemModal}
                 handleCloseModal={handleCloseModal}
-              />
-              <div className="item-list-btn" onClick={handleShowModal}>
+              /> */}
+              <div
+                className="item-list-btn"
+                onClick={() => {
+                  setNewItem(true);
+                  if (
+                    itemName.length > 0 &&
+                    quantity.length > 0 &&
+                    amount.length > 0 &&
+                    amount >= 1 &&
+                    quantity >= 1
+                  ) {
+                    handleAddItem();
+                  } 
+                  // handleAddItem();
+                }}
+              >
                 + Add New Items
               </div>
               <div className="action-container action-btn-wrapper">
@@ -405,7 +537,13 @@ const ViewInvoice = () => {
                     <Button
                       hover_color="var(--mark-hover)"
                       color="var(--mark-color)"
-                      handleAction={editInvoice}
+                      handleAction={(e)=>{
+                        if(status?.toLowerCase() === 'draft'){
+                          e.preventDefault()
+                        }  
+                        editInvoice()
+
+                      }}
                     >
                       Save Changes
                     </Button>
@@ -446,13 +584,23 @@ const ViewInvoice = () => {
             color="var(--edit-color)"
             txt="#7E88C3"
             handleAction={openSideModal}
+            disabled={
+              state?.status?.toLowerCase() === "paid" 
+            }
           >
             Edit
           </Button>
           <Button color="var(--delete-color)" handleAction={openModal}>
             Delete
           </Button>
-          <Button color="var(--mark-color)" handleAction={markAsPaid}>
+          <Button
+            color="var(--mark-color)"
+            handleAction={markAsPaid}
+            disabled={
+              state?.status?.toLowerCase() === "paid" ||
+              state?.status?.toLowerCase() === "draft"
+            }
+          >
             Mark as Paid
           </Button>
         </span>
@@ -461,6 +609,7 @@ const ViewInvoice = () => {
   );
 };
 
+// header component for view invoice
 const ViewInvoiceHeader = ({
   status,
   openModal,
@@ -482,6 +631,9 @@ const ViewInvoiceHeader = ({
             color="var(--edit-color)"
             txt="#7E88C3"
             handleAction={openSideModal}
+            disabled={
+              status?.toLowerCase() === "paid" 
+            }
           >
             Edit
           </Button>
@@ -496,6 +648,10 @@ const ViewInvoiceHeader = ({
             hover_color="var(--mark-hover)"
             color="var(--mark-color)"
             handleAction={markInvoiceAsPaid}
+            disabled={
+              status?.toLowerCase() === "paid" ||
+              status?.toLowerCase() === "draft"
+            }
           >
             Mark as Paid
           </Button>
@@ -505,6 +661,7 @@ const ViewInvoiceHeader = ({
   </div>
 );
 
+// content component for view invoice
 const ViewInvoiceContent = ({ state }) => (
   <>
     <div className="view-invoice-content">
@@ -558,7 +715,7 @@ const ViewInvoiceContent = ({ state }) => (
               <th>Price</th>
               <th>Total</th>
             </tr>
-            {state?.items.map((e) => (
+            {state?.items?.map((e) => (
               <tr>
                 <td>{e.name}</td>
                 <td>{e.quantity}</td>
@@ -578,6 +735,7 @@ const ViewInvoiceContent = ({ state }) => (
   </>
 );
 
+// delete component for view invoice
 const DeleteModal = ({ closeModal, showModal, id, deleteInvoice }) => {
   return (
     <div>

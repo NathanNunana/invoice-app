@@ -23,5 +23,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* padding: 15px 30px; */
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .action-button {
+    font-size: 11px;
+    /* padding: 15px 40psx; */
+    overflow: initial;
   }
 }

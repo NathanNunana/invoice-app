@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./Button.css";
 
-const Button = ({ children, color, txt, handleAction, hover_color }) => {
+const Button = ({ children, color, txt, handleAction, hover_color, disabled }) => {
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -28,6 +28,7 @@ const Button = ({ children, color, txt, handleAction, hover_color }) => {
       onMouseLeave={handleMouseLeave}
       value={children}
       type="submit"
+      disabled={disabled}
     />
   </>
 };
