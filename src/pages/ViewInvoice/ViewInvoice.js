@@ -163,8 +163,8 @@ const ViewInvoice = () => {
       },
       state?.id
     );
-    window.location.reload()
-    closeSideModal()
+    window.location.reload();
+    closeSideModal();
   };
 
   // reading invoice data
@@ -404,7 +404,8 @@ const ViewInvoice = () => {
                 </div>
               </div>
               <div>
-                <label>Project Description</label><br/>
+                <label>Project Description</label>
+                <br />
                 <input
                   type="text"
                   className="input-boxes fill"
@@ -516,7 +517,7 @@ const ViewInvoice = () => {
                     quantity >= 1
                   ) {
                     handleAddItem();
-                  } 
+                  }
                   // handleAddItem();
                 }}
               >
@@ -537,12 +538,9 @@ const ViewInvoice = () => {
                     <Button
                       hover_color="var(--mark-hover)"
                       color="var(--mark-color)"
-                      handleAction={(e)=>{
-                        if(status?.toLowerCase() === 'draft'){
-                          e.preventDefault()
-                        }  
-                        editInvoice()
-
+                      handleAction={(e) => {
+                        e.preventDefault()
+                        editInvoice();
                       }}
                     >
                       Save Changes
@@ -565,7 +563,10 @@ const ViewInvoice = () => {
                       </Button>
                       <Button
                         color="var(--mark-color)"
-                        handleAction={editInvoice}
+                        handleAction={(e) => {
+                          e.preventDefault()
+                          editInvoice();
+                        }}
                       >
                         Save Changes
                       </Button>
@@ -584,9 +585,7 @@ const ViewInvoice = () => {
             color="var(--edit-color)"
             txt="#7E88C3"
             handleAction={openSideModal}
-            disabled={
-              state?.status?.toLowerCase() === "paid" 
-            }
+            disabled={state?.status?.toLowerCase() === "paid"}
           >
             Edit
           </Button>
@@ -631,9 +630,7 @@ const ViewInvoiceHeader = ({
             color="var(--edit-color)"
             txt="#7E88C3"
             handleAction={openSideModal}
-            disabled={
-              status?.toLowerCase() === "paid" 
-            }
+            disabled={status?.toLowerCase() === "paid"}
           >
             Edit
           </Button>

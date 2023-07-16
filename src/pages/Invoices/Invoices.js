@@ -24,6 +24,9 @@ import "./Invoices.css";
 import { useNavigate } from "react-router-dom";
 
 const Invoices = () => {
+  const currentDate = new Date();
+  const formattedDate = currentDate.toISOString().split("T")[0];
+
   // useState hooks
   const [invoices, setInvoices] = React.useState([]);
   const [showModal, setShowModal] = React.useState(false);
@@ -41,7 +44,7 @@ const Invoices = () => {
   const [clientEmail, setClientEmail] = React.useState("");
 
   // Invoice Information
-  const [paymentDue, setPaymentDue] = React.useState("");
+  const [paymentDue, setPaymentDue] = React.useState(formattedDate);
   const [paymentTerms, setPaymentTerms] = React.useState(0);
   const [description, setDescription] = React.useState("");
   const [items, setItems] = React.useState([]);
@@ -122,8 +125,8 @@ const Invoices = () => {
       total: items.reduce((sum, item) => sum + item.price * item.quantity, 0),
     };
     await createInvoice(invoice);
-    setStatus(status)
-    window.location.reload();
+    setStatus(status);
+    // window.location.reload();
   };
 
   // items state
@@ -144,6 +147,22 @@ const Invoices = () => {
     setQuantity("");
     setAmount("");
     // setNewItem(false);
+  };
+
+  const isValidForm = () => {
+    return (
+      sendersStreet !== "" &&
+      sendersCity !== "" &&
+      sendersPostCode !== "" &&
+      sendersCountry !== "" &&
+      clientName !== "" &&
+      clientEmail !== "" &&
+      description !== "" &&
+      clientStreet !== "" &&
+      clientCity !== "" &&
+      clientPostCode !== "" &&
+      clientCountry !== ""
+    );
   };
 
   // render the UI elements
@@ -273,6 +292,7 @@ const Invoices = () => {
                   <label>Invoice Date</label>
                   <input
                     type="date"
+                    value={paymentDue}
                     className="input-boxes"
                     onChange={(e) => setPaymentDue(e.target.value)}
                     required
@@ -297,7 +317,8 @@ const Invoices = () => {
                 </div>
               </div>
               <div>
-                <label>Project Description</label><br/>
+                <label>Project Description</label>
+                <br />
                 <input
                   type="text"
                   className="input-boxes fill"
@@ -419,7 +440,7 @@ const Invoices = () => {
                     txt="var(--add-item-button-color)"
                     handleAction={(e) => {
                       e.preventDefault();
-                      handleModalClose();
+                      window.location.reload();
                     }}
                   >
                     Discard
@@ -429,10 +450,8 @@ const Invoices = () => {
                       color="var(--primary-color)"
                       handleAction={(e) => {
                         e.preventDefault();
-                        // setStatus("Draft");
-                        if(paymentDue.length<=0) setPaymentDue(Date.now)
-                        saveInvoice("Draft");
-                        handleModalClose();
+                          saveInvoice("Draft");
+                          window.location.reload();
                       }}
                     >
                       Save as Draft
@@ -440,9 +459,9 @@ const Invoices = () => {
                     <Button
                       color="var(--mark-color)"
                       handleAction={() => {
-                        // setStatus("Pending")
-                        saveInvoice("Pending");
-                        navigate("/");
+                        if (isValidForm()) {
+                          saveInvoice("Pending");
+                        }
                       }}
                     >
                       Save & Send
@@ -467,11 +486,9 @@ const Invoices = () => {
                       <Button
                         color="var(--primary-color)"
                         handleAction={(e) => {
-                          e.preventDefault();
-                          // setStatus("Draft")
-                          if(paymentDue.length<=0) setPaymentDue(Date.now)
-                          saveInvoice("Draft");
-                          handleModalClose();
+                            e.preventDefault();
+                            saveInvoice("Draft");
+                            window.location.reload();
                         }}
                       >
                         Save as Draft
@@ -479,9 +496,10 @@ const Invoices = () => {
                       <Button
                         color="var(--mark-color)"
                         handleAction={() => {
-                          // setStatus("Pending");
-                          saveInvoice("Pending");
-                          navigate("/");
+                          if (isValidForm()) {
+                            saveInvoice("Pending");
+                            navigate("/");
+                          }
                         }}
                       >
                         Save & Send

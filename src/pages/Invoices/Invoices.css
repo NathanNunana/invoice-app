@@ -119,11 +119,12 @@ option {
   max-width: calc(400px / 4);
 }
 .item-list-btn {
-  width: 504px;
+  width: 500px;
   color: var(--add-item-button-color);
   background: var(--add-item-button-bg);
   text-align: center;
   padding: 17px;
+  margin-right: 30px;
   border-radius: 24px;
   margin-bottom: 10px;
   font-size: 12px;
